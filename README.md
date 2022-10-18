@@ -24,6 +24,6 @@ Les instructions sont disponibles [ici](https://github.com/Faylixe/ceri-m1-ecomm
 
 | Role                      | Membre |
 | ------------------------- | ------ |
-| Backend engineer          | _FILL_ |
-| Frontend engineer         | _FILL_ |
-| Site reliability engineer | _FILL_ |
+| Backend engineer          | Jacob MICHALSKI |
+| Frontend engineer         | Alexis BAUDOIN (Viringe) |
+| Site reliability engineer | Jérémie OPIGEZ |
