@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from sqlmodel import SQLModel, Field, Relationship
+from pydantic import BaseModel
 
 class Artist(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -29,3 +30,15 @@ class Track(SQLModel, table=True):
     title: str
     album_id: int = Field(default=None, foreign_key="album.id")
     album: Album = Relationship(back_populates="tracks")
+
+class Song(BaseModel):
+    number: int
+    title: str
+
+class Vinyl(BaseModel):
+    name: str
+    artist: str
+    genre: str
+    year: int
+    number_of_tracks: int
+    tracks: list[Song]
