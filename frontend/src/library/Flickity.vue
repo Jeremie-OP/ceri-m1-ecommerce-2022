@@ -322,5 +322,5 @@ export default {
     }
   }
 };
-// <style src="flickity/dist/flickity.css"></style>
 </script>
+<style src="flickity/dist/flickity.css"></style>
