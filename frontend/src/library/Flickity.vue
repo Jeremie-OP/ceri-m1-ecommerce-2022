@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script>
+<script >
 import Flickity from "flickity";
 import "flickity/dist/flickity.css";
 

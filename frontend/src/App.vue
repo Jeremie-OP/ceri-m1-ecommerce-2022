@@ -1,7 +1,7 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import menuDisque from "./components/Menu.vue"
+import menuDisque from "./components/Menu.vue";
 
 // definir si on se sert d'une request pour get all disque on mutiple
 
@@ -13,6 +13,9 @@ import menuDisque from "./components/Menu.vue"
 
 // button mon compte -> modale de connection
 // pge info du compte
+components: {
+  menuDisque
+}
 </script>
 
 <template>

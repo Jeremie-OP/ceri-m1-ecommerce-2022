@@ -12,12 +12,8 @@
     </div>
 </template>
 
-<script>
-export default {
-    setup() {
-        
-    },
-}
+<script setup lang="ts">
+
 </script>
 
 <style>
