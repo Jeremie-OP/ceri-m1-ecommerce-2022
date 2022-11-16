@@ -5,14 +5,15 @@ import menuDisque from "./components/Menu.vue";
 
 // definir si on se sert d'une request pour get all disque on mutiple
 
-// /artists to get list of artiste + queenn to get all element
-// /collection to get all
-// menu-> home
-//rajoyté une étiquette au centre du disque comme les vynil pour le titre   
-//icon de page vinyl ou note de music 
+// create account
+// log
+// add album to cart
+// view the cart
+// can pay the cart
 
-// button mon compte -> modale de connection
-// pge info du compte
+
+// api to get gerne ? 
+// doockerignore -> npde_modules
 components: {
   menuDisque
 }

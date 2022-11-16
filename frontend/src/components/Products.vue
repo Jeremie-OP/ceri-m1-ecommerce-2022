@@ -2,8 +2,8 @@
   <div class="products" alt="disque">
     </div>
     <div class="info">
-      <h5>Titre/ eminer here</h5>
-      <p>prix</p>
+      <h5>{{titleMusic}}</h5>
+      <p>{{price}}</p>
     </div>
 
 </template>
@@ -11,7 +11,15 @@
 <script lang="ts">
 
 import Vue from 'vue'
-export default ({
+export default({
+   props: {
+        titleMusic: String,
+        price: String
+    },
+    created(){
+   
+    }
+
     
 })
 // ../img/CoverArt.webp
@@ -26,6 +34,8 @@ export default ({
   background-color: aqua;
   background-image: url("../img/CoverArt.png");
   background-size: 300px;
+  transition: 0.6s;
+
 
 }
 .products:hover {
