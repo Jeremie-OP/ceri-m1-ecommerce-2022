@@ -2,8 +2,8 @@ from typing import List
 from fastapi import FastAPI, Depends
 from sqlmodel import Session, select
 
-from .model import Artist, Album, Genre, Song, Vinyl 
-from .db import init_db, get_session
+from src.model import Artist, Album, Genre, Song, Vinyl 
+from src.db import init_db, get_session
 
 def list_vinyls(result):
     vinyls = []
@@ -16,11 +16,11 @@ def list_vinyls(result):
             )
             tracklist.append(song)
         vinyl = Vinyl(
-            name=album.name, 
-            artist=album.artist.name, 
-            genre=album.genre.name, 
-            year=album.year, 
-            number_of_tracks=album.number_of_tracks, 
+            name=album.name,
+            artist=album.artist.name,
+            genre=album.genre.name,
+            year=album.year,
+            number_of_tracks=album.number_of_tracks,
             tracks=tracklist
         )
         vinyls.append(vinyl)
