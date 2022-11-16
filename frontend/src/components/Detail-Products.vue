@@ -2,8 +2,8 @@
     <div class="container">
         <img src="../img/Content.png" alt="Content of vynil" width="420" height="420">
         <div class="description">
-            <h2>Titre</h2>
-            <h5>Prisx</h5>
+            <h2>{{info}}</h2>
+            <h5>Prisx </h5>
 
             <p>Detail:Aenean vulputate orci eu augue aliquet, aliquam molestie sapien iaculis. Pellentesque lobortis turpis et sem viverra ultrices. Proin laoreet nulla at semper hendrerit. Sed ut eros in tortor tempor sollicitudin. Morbi vel ultricies tortor. Phasellus ullamcorper magna et sagittis ornare. Nulla facilisi. Aenean hendrerit ipsum quis nibh rhoncus, sed tempus sapien feugiat. Cras auctor, elit a volutpat blandit, lacus erat molestie tortor, gravida condimentum justo nulla a nunc. In bibendum nisl diam, vitae blandit justo pellentesque quis. Fusce in placerat erat. Praesent nulla odio, venenatis sed libero ut, iaculis elementum sem. Integer ornare eget tortor nec malesuada. Sed porttitor ligula in mauris dignissim, id tristique odio ullamcorper. Morbi vel dolor ut nibh vehicula euismod. Cras facilisis leo eget rutrum porta.
 
@@ -12,8 +12,18 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+  import { defineComponent } from 'vue'
 
+ export default defineComponent({
+    setup(){
+      
+    },
+    props: {
+        info: String
+    }
+
+  })
 </script>
 
 <style>
