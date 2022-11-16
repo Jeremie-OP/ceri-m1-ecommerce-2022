@@ -5,6 +5,9 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       #----------------------------------------------
       #       check-out repo and set-up python
@@ -35,11 +38,6 @@ jobs:
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      #---------------------------------------------
-      #       move to backend folder
-      #---------------------------------------------
-      - name: Move to Backend
-        run: cd backend/
       #----------------------------------------------
       # install dependencies if cache does not exist
       #----------------------------------------------
