@@ -1,14 +1,16 @@
 
 <template>
-  id: {{id}}
-  <DetailProductsVue/>
+  <DetailProductsVue :info="info[0]"/>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import DetailProductsVue from "../components/Detail-Products.vue";
 const route = useRoute();
-const id = route.params.id; // pass id of abulm or all info
+// name: music.name, gerne: music.gerne, year: music.year, trackNb: music.number_of_tracks, track: music.track} }"> 
+const info = route.params.info
+
+
 
 </script>
 
