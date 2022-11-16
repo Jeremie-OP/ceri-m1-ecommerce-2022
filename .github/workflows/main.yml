@@ -28,6 +28,12 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
           installer-parallel: true
+        
+      #----------------------------------------------
+      #  -----  install dependencies  -----
+      #----------------------------------------------
+      - name: Poestry lock
+        run: poetry lock [--no-update]
 
       #----------------------------------------------
       #       load cached venv if cache exists
