@@ -1,9 +1,10 @@
-name: test
+name: Test, Build, and Deploy
 
 on: [push]
 
 jobs:
   test:
+    name : Test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -56,11 +57,30 @@ jobs:
           source .venv/bin/activate
           coverage run -m pytest tests/
           coverage report
+  build_frontend_container:
+    name: Build Frontend Container
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker build . -t frontend:latest
 
-name: Deploy
-on: [push]
-jobs:
+  build_backend_container:
+    name: Build Backend Container
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker build . -t backend:latest
+
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     defaults:
       run:
