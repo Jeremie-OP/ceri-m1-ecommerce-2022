@@ -58,7 +58,10 @@ jobs:
           coverage report
 
 name: Deploy
-on: push: branches: [ main, CERY-4-mettre-en-place-lintegration-continue-backend-et-frontend ]
+on: push: 
+  branches:
+    - main
+    - CERY-4-mettre-en-place-lintegration-continue-backend-et-frontend
 jobs:
   deploy:
     runs-on: ubuntu-latest
