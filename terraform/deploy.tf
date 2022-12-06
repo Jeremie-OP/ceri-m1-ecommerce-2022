@@ -19,7 +19,6 @@ variable "gcp-creds" {
 }
 
 resource "google_cloud_run_service" "cerythme_backend_service" {
-  name         = "cerythme_backend_service"
   location     = "europe-west1"
   template {
     spec {
@@ -31,7 +30,6 @@ resource "google_cloud_run_service" "cerythme_backend_service" {
 }
 
 resource "google_cloud_run_service" "cerythme_frontend_service" {
-  name         = "cerythme_frontend_service"
   location     = "europe-west1"
   template {
     spec {
