@@ -68,7 +68,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build . -t frontend:latest
+        run: docker build -t frontend .
+      - name: Push to registry
+        run: docker tag frontend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
+        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
 
   build_backend_container:
     name: Build Backend Container    
@@ -80,7 +84,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build . -t backend:latest
+        run: docker build -t backend .
+      - name: Push to registry
+        run: docker tag backend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
+        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
 
   deploy:
     name: Deploy
