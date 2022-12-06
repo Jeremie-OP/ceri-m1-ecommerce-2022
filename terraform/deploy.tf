@@ -1,9 +1,9 @@
 terraform {
   cloud {
-    organization = "ceri-m1-ecommerce-2022"
+    organization = "jeremieopigez"
 
     workspaces {
-      name = "graytiger"
+      name = "Cerythme"
     }
   }
 }
