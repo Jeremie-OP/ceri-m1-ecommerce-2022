@@ -1,10 +1,20 @@
+terraform {
+  cloud {
+    organization = "Ecom_Bluelion"
+
+    workspaces {
+      name = "Ecom_Bluelion"
+    }
+  }
+}
+
 provider "google" {
+  project = "ceri-m1-ecommerce-2022"
+  region  = "europe-west1"
 }
 
 resource "google_cloud_run_service" "cerythme_backend_service" {
   name         = "cerythme_backend_service"
-  location     = "europe-west1"
-  max_instances = 1
 
   template {
     spec {
@@ -17,8 +27,6 @@ resource "google_cloud_run_service" "cerythme_backend_service" {
 
 resource "google_cloud_run_service" "cerythme_frontend_service" {
   name         = "cerythme_frontend_service"
-  location     = "europe-west1"
-  max_instances = 1
 
   template {
     spec {
