@@ -1,34 +1,31 @@
 provider "google" {
-  version = "3.0.0"
 }
 
-resource "google_container_registry" "my_registry" {
-  name = "my-registry"
-}
-
-resource "google_cloud_run_service" "my_backend_service" {
-  name         = "my-backend-service"
+resource "google_cloud_run_service" "cerythme_backend_service" {
+  name         = "cerythme_backend_service"
   location     = "europe-west1"
   traffic_type = "REVISION"
+  max_instances = 1
 
   template {
     spec {
       containers {
-        image = "${google_container_registry.my_registry.proxy_url}/my-backend-image:latest"
+        image = "https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:latest"
       }
     }
   }
 }
 
-resource "google_cloud_run_service" "my_frontend_service" {
-  name         = "my-frontend-service"
+resource "google_cloud_run_service" "cerythme_frontend_service" {
+  name         = "cerythme_frontend_service"
   location     = "europe-west1"
   traffic_type = "REVISION"
+  max_instances = 1
 
   template {
     spec {
       containers {
-        image = "${google_container_registry.my_registry.proxy_url}/my-frontend-image:latest"
+        image = "https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:latest"
       }
     }
   }
