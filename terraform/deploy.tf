@@ -18,7 +18,7 @@ variable "gcp-creds" {
   default=""
 }
 
-resource "google_cloud_run_service" "ceri-m1-ecommerce-2022" {
+resource "google_cloud_run_service" "cerythme_backend_service" {
   name         = "cerythme_backend_service"
   location     = "europe-west1"
   template {
@@ -30,7 +30,7 @@ resource "google_cloud_run_service" "ceri-m1-ecommerce-2022" {
   }
 }
 
-resource "google_cloud_run_service" "ceri-m1-ecommerce-2022" {
+resource "google_cloud_run_service" "cerythme_frontend_service" {
   name         = "cerythme_frontend_service"
   location     = "europe-west1"
   template {
