@@ -1,9 +1,9 @@
 terraform {
   cloud {
-    organization = "Ecom_Bluelion"
+    organization = "ceri-m1-ecommerce-2022"
 
     workspaces {
-      name = "Ecom_Bluelion"
+      name = "graytiger"
     }
   }
 }
