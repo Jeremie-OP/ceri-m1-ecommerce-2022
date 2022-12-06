@@ -10,7 +10,12 @@ terraform {
 
 provider "google" {
   project = "ceri-m1-ecommerce-2022"
-  region  = "europe-west1"
+  region  = "europe-west1"  
+  credentials = var.gcp-creds
+}
+
+variable "gcp-creds" {
+  default=""
 }
 
 resource "google_cloud_run_service" "cerythme_backend_service" {
