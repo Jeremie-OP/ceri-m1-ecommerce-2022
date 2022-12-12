@@ -24,6 +24,7 @@ resource "google_cloud_run_service" "cerythme_backend_service" {
   location     = "europe-west1"
   template {
     spec {
+      service_account_name = "terraform-graytiger@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
         image = "https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:latest"
       }
@@ -43,6 +44,7 @@ resource "google_cloud_run_service" "cerythme_frontend_service" {
   location     = "europe-west1"
   template {
     spec {
+      service_account_name = "terraform-graytiger@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
         image = "https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:latest"
       }
