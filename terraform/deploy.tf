@@ -18,7 +18,7 @@ variable "gcp-creds" {
   default=""
 }
 
-resource "google_cloud_run_service" "cerythme_backend_service" {
+resource "google_cloud_run_service" "cerythme-backend-service" {
   provider = google
   name         = "cerythme_backend"
   location     = "europe-west1"
@@ -38,7 +38,7 @@ resource "google_cloud_run_service" "cerythme_backend_service" {
   }
 }
 
-resource "google_cloud_run_service" "cerythme_frontend_service" {
+resource "google_cloud_run_service" "cerythme-frontend-service" {
   provider = google
   name         = "cerythme_frontend"
   location     = "europe-west1"
@@ -63,5 +63,5 @@ resource "google_cloud_run_service" "cerythme_frontend_service" {
 }
 
 output "cloud_run_instance_url" {
-  value = google_cloud_run_service.cerythme_frontend_service.status.0.url
+  value = google_cloud_run_service.cerythme-frontend-service.status.0.url
 }

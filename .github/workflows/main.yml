@@ -3,96 +3,96 @@ name: Test, Build, and Deploy
 on: [push]
 
 jobs:
-  test:
-    name : Test
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      #----------------------------------------------
-      #       check-out repo and set-up python
-      #----------------------------------------------
-      - name: Check out repository
-        uses: actions/checkout@v3
-      - name: Set up python
-        id: setup-python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      #----------------------------------------------
-      #  -----  install & configure poetry  -----
-      #----------------------------------------------
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      #----------------------------------------------
-      # install dependencies if cache does not exist
-      #----------------------------------------------
-      - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
-      #----------------------------------------------
-      # install your root project, if required
-      #----------------------------------------------
-      - name: Install project
-        run: poetry install --no-interaction
-      #----------------------------------------------
-      #              run test suite
-      #----------------------------------------------
-      - name: Run tests
-        run: |
-          source .venv/bin/activate
-          coverage run -m pytest tests/
-          coverage report
+  # test:
+  #   name : Test
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./backend
+  #   steps:
+  #     #----------------------------------------------
+  #     #       check-out repo and set-up python
+  #     #----------------------------------------------
+  #     - name: Check out repository
+  #       uses: actions/checkout@v3
+  #     - name: Set up python
+  #       id: setup-python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10'
+  #     #----------------------------------------------
+  #     #  -----  install & configure poetry  -----
+  #     #----------------------------------------------
+  #     - name: Install Poetry
+  #       uses: snok/install-poetry@v1
+  #       with:
+  #         virtualenvs-create: true
+  #         virtualenvs-in-project: true
+  #         installer-parallel: true
+  #     #----------------------------------------------
+  #     #       load cached venv if cache exists
+  #     #----------------------------------------------
+  #     - name: Load cached venv
+  #       id: cached-poetry-dependencies
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: .venv
+  #         key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+  #     #----------------------------------------------
+  #     # install dependencies if cache does not exist
+  #     #----------------------------------------------
+  #     - name: Install dependencies
+  #       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+  #       run: poetry install --no-interaction --no-root
+  #     #----------------------------------------------
+  #     # install your root project, if required
+  #     #----------------------------------------------
+  #     - name: Install project
+  #       run: poetry install --no-interaction
+  #     #----------------------------------------------
+  #     #              run test suite
+  #     #----------------------------------------------
+  #     - name: Run tests
+  #       run: |
+  #         source .venv/bin/activate
+  #         coverage run -m pytest tests/
+  #         coverage report
 
-  build_frontend_container:
-    name: Build Frontend Container
-    needs: test
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build the Docker image
-        run: docker build -t frontend .
-      - name: Tag to version
-        run: docker tag frontend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
-      - name: Login to registry
-        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
-      - name: Push to registry
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
+  # build_frontend_container:
+  #   name: Build Frontend Container
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./frontend
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Build the Docker image
+  #       run: docker build -t frontend .
+  #     - name: Tag to version
+  #       run: docker tag frontend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
+  #     - name: Login to registry
+  #       run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
+  #     - name: Push to registry
+  #       run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
 
-  build_backend_container:
-    name: Build Backend Container    
-    needs: test
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build the Docker image
-        run: docker build -t backend .
-      - name: Tag to version
-        run: docker tag backend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
-      - name: Login to registry
-        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
-      - name: Push to registry
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
+  # build_backend_container:
+  #   name: Build Backend Container    
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./backend
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Build the Docker image
+  #       run: docker build -t backend .
+  #     - name: Tag to version
+  #       run: docker tag backend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
+  #     - name: Login to registry
+  #       run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
+  #     - name: Push to registry
+  #       run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
 
   deploy:
     name: Deploy
