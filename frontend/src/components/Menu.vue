@@ -5,7 +5,7 @@
         <router-link to="/" class="deg90">
             <button class="deg90">menu</button>
         </router-link>
-        <button class="deg65">nope</button>
+        <button class="deg65" id="show-modal" v-on:click="tryThis">Account</button>
         
         <!-- <button class="deg90">memnu</button> -->
         <button class="deg115">Button</button>
@@ -13,12 +13,50 @@
     </div>
 </div> 
 
-<div class="separate"></div>
+
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default ({
+import Vue from 'vue';
+import { defineComponent } from 'vue';
+import { storeAccount } from '../stores/store';
+
+
+import {ref} from "vue";
+
+export default defineComponent({
+  setup(){
+      const store = storeAccount()
+      return {
+        store
+      }
+    },
+  Component: {
+  },
+  emits: ["showModal"],
+  data() {
+    return {
+      showModal: false,
+      islog: false
+      }
+  },
+  methods: {
+    tryThis() {
+      this.islog = this.store.isConnected()
+      if (!this.islog ){
+        document.body.classList.add("modal-open");
+        this.$emit("showModal", "account");
+      }
+      else{
+        document.body.classList.add("modal-open");
+        this.$emit("showModal", "profile");
+      }
+      
+    },
+  },
+  mounted(){
+    this.islog = this.store.isConnected()
+  }
     
 })
 </script>
