@@ -3,7 +3,7 @@ terraform {
     organization = "jeremieopigez"
 
     workspaces {
-      name = "Cerythme"
+      name = "cerythme"
     }
   }
 }
@@ -19,6 +19,7 @@ variable "gcp-creds" {
 }
 
 resource "google_cloud_run_service" "cerythme_backend_service" {
+  provider = google
   name         = "cerythme_backend"
   location     = "europe-west1"
   template {
@@ -27,10 +28,17 @@ resource "google_cloud_run_service" "cerythme_backend_service" {
         image = "https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:latest"
       }
     }
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/maxScale" = "1"
+        "autoscaling.knative.dev/minScale" = "1"
+      }
+    }
   }
 }
 
 resource "google_cloud_run_service" "cerythme_frontend_service" {
+  provider = google
   name         = "cerythme_frontend"
   location     = "europe-west1"
   template {
@@ -39,5 +47,19 @@ resource "google_cloud_run_service" "cerythme_frontend_service" {
         image = "https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:latest"
       }
     }
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/maxScale" = "1"
+        "autoscaling.knative.dev/minScale" = "1"
+      }
+    }
   }
+  traffic {
+    percent         = 100
+    latest_revision = true
+  }
+}
+
+output "cloud_run_instance_url" {
+  value = google_cloud_run_service.cerythme_frontend.status.0.url
 }
