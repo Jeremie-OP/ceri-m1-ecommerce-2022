@@ -10,12 +10,13 @@ import { onMounted } from "@vue/runtime-core";
 
 // definir si on se sert d'une request pour get all disque on mutiple
 
-// /artists to get list of artiste + queenn to get all element
-// /collection to get all
-// menu-> home
-//rajoyté une étiquette au centre du disque comme les vynil pour le titre   
-//icon de page vinyl ou note de music 
+// create account
+// log
+// add album to cart
+// view the cart
+// can pay the cart
 
+<<<<<<< HEAD
 // button mon compte -> modale de connection
 // pge info du compte
 
@@ -52,6 +53,14 @@ export default({
 });
 
 
+=======
+
+// api to get gerne ? 
+// doockerignore -> npde_modules
+components: {
+  menuDisque
+}
+>>>>>>> 621e08ee1f5676866a186faaa9d013f84d37df3c
 </script>
 
 <template>

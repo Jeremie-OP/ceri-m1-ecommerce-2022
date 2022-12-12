@@ -1,32 +1,24 @@
-<template>
-    <div class="wrapper">
-        <h2> {{title}}</h2>
-        <flickity ref="flickity" :options='flickityOptions' class="flickity" >
-            <!-- repalce carousel by carousel-cell -->
-            <div class="carousel-cell" v-for="n in 10" :key="n"> 
-                    <router-link class="blackLink" :to="{name: 'detail-product', params: {id: n}}" > 
-                    <!-- :to="{name: 'detail-product', parmas: {id : n} }"  -->
-                        <products  class="products"></products>
-
-                    </router-link>
-                </div>
-            <router-view />
-
-        </flickity>
-    </div>
-    
-</template>
-<script lang="ts">
+<script>
 import Flickity from '../library/Flickity.vue';
-import Products from '../components/Products.vue'
+import Products from '../components/Products.vue';
+import axios from "axios";
+import { defineComponent } from 'vue';
 
-export default({
+
+export default defineComponent({
     props: {
         title: String
     },
     components: {
         Flickity,
         Products
+    },
+    data(){
+        return{
+            listMusic: null
+            // [{name:null}]
+            // [{name: "null",artist: "Queen"}]
+        }
     },
     setup(){
         if (window.innerWidth <=900)
@@ -57,15 +49,32 @@ export default({
         }
        
     },
-    
-    mounted() {
-    },
-    methods: {
-        
-
+    created() {
+        axios.get("http://localhost:8888/artist/"+this.title+"").then(response => (this.listMusic = response.data));
     }
 })
 </script>
+
+<template>
+    <div class="wrapper">
+        <h2> {{title}}</h2>
+        <flickity v-if="listMusic != null" ref="flickity" :options='flickityOptions' class="flickity" >
+            <!-- repalce carousel by carousel-cell -->
+            <div class="carousel-cell" v-for="music in listMusic" > 
+
+                    <router-link class="blackLink" :to="{name: 'detail-product', params: { info:music.name} }" > 
+                    <!-- :to="{name: 'detail-product', parmas: {id : n} }"  -->
+                        <products  class="products" :titleMusic="music.name" price="10€"></products>
+
+                    </router-link>
+            </div>
+            <router-view />
+
+        </flickity>
+    </div>
+    
+</template>
+
 
 <style>
 @media (max-width: 900px) {
