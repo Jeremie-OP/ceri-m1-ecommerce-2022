@@ -1,47 +1,39 @@
-<script setup lang="ts">
+<script >
   import { onMounted } from "@vue/runtime-core";
   import axios from "axios";
   import carousel from "../components/Carousel.vue";
-
-  onMounted(() => {
-    let result = axios.get("https://reqres.in/api/users?page=1"); //no await
-    console.log(result);
-
-    })
+  import { defineComponent } from 'vue'
+  
+  // let listArtist = axios.get("http://localhost:8888/artists");
+  // console.log(listArtist);
+  export default defineComponent({
+    setup(){
+      
+    },
+    components:{
+      carousel
+    },
+    data() {
+      return {
+        listArtist: null
+        // [{name:"null", id:0}]
+      }
+    },
+    mounted() {
+      axios.get("http://localhost:8888/artists").then(response => (this.listArtist = response.data));
+    }
+  })
+  
 </script>
 
 <template>
   <!-- <div class="separate"></div> -->
-   <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
-    <div class="warpper"> 
-      <carousel class="menu" title="test"/>
-    </div>
+  <!-- v-for="n in 10" :key="n" -->
+  <!-- {{listArtist}} -->
+  <div class="warpper" v-for="artiste in listArtist" > 
+    <carousel class="menu" :title="artiste.name"/>
+  </div>
+    
 </template>
 
 <style>
@@ -54,7 +46,6 @@
       padding: 1.5rem;
     }
   }
-
   @media (min-width: 900px){
     .warpper
     {
@@ -62,20 +53,16 @@
       /* padding: 15px; */
    
     }
-
     .menu{
       margin-top: 3.5rem;
     }
   }
-
   .warpper:nth-child(6n+1){
     background-color: hsla(0, 100%, 90%, 1);
   }
-
   .warpper:nth-child(6n+3){
     background-color: hsla(215, 100%, 90%, 1);
   }
-
   .warpper:nth-child(6n+5){
     background-color: hsla(64, 100%, 90%, 1)
   } 

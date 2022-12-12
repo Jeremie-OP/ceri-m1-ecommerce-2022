@@ -68,7 +68,7 @@
 
 </template>
 
-<script lang="ts">
+<script >
 import axios from "axios";
 import { storeAccount } from '../stores/store';
 import useValidation from '@vuelidate/core';
@@ -128,8 +128,8 @@ export default {
             password: { required: helpers.withMessage('Le champs ne peut pas etre vide', required) },
             confirmPassword: { 
               required: helpers.withMessage('Le champs ne peut pas etre vide', required),
-              sameAsPassword: helpers.withMessage('Les mots de passe ne sont pas identiques', sameAs(this.signIn.password))
-              }
+              sameAs: helpers.withMessage('Les mots de passe ne sont pas identiques', sameAs(this.password))
+            }
         }
       }
     },
@@ -151,31 +151,18 @@ export default {
 
       },
       async toLog(){
-        // console.log(this.v$)
-        const result = await this.v$.$validate()
-        if (!result) {
+        const result = await this.v$.login.$validate()
+        if(!result){
           console.log('error', result)
-          //return
+          return
         }
         this.store.loginAccount(this.login)
 
-
-        // this.login.isSub = true;
-        // const formValid = [this.login.username, this.login.password]
-        // .map((x) => x.trim())
-        // .every(Boolean);
-
-        // if ((this.login.username == '') || (this.login.password == '')){
-        //   alert("veuillez remplir tous les champs")
-        //   return
-        // }
-        // let result = axios.post("http://localhost:8888/login", this.login);
-        // console.log(result);
         
         this.isLog()
       },
       async toSign(){
-        const result = await this.v$.$validate()
+        const result = await this.v$.signIn.$validate()
         if(!result){
           console.log('error', result)
           return

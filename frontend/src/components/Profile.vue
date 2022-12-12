@@ -40,7 +40,8 @@
 
 </template>
 
-<script lang="ts">
+
+<script > 
 import axios from "axios";
 import { storeAccount } from '../stores/store';
 
@@ -51,12 +52,6 @@ export default {
         store
       }
     },
-    props: {
-        show: {
-            type: Boolean,
-            required: true
-        }
-    },
     data(){
       return{
         islogin: true,
@@ -64,8 +59,7 @@ export default {
           fullname: this.store.stateUser.fullname,
           username: this.store.stateUser.username,
           password: ''
-        }
-        
+        },
       }
     },
     methods: {

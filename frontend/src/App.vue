@@ -1,5 +1,6 @@
 
-<script lang="ts">
+<script >
+import { defineComponent } from 'vue';
 import { RouterLink, RouterView } from "vue-router";
 import menuDisque from "./components/Menu.vue";
 import Account from "./components/Account.vue";
