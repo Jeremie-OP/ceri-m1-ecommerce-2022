@@ -96,7 +96,7 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: [build_frontend_container, build_backend_container]
+    # needs: [build_frontend_container, build_backend_container]
     runs-on: ubuntu-latest
     defaults:
       run:
