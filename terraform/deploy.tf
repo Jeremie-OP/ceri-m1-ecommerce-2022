@@ -61,5 +61,5 @@ resource "google_cloud_run_service" "cerythme_frontend_service" {
 }
 
 output "cloud_run_instance_url" {
-  value = google_cloud_run_service.cerythme_frontend.status.0.url
+  value = google_cloud_run_service.cerythme_frontend_service.status.0.url
 }
