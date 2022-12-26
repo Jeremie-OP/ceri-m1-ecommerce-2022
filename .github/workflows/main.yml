@@ -70,7 +70,7 @@ jobs:
       - name: Build the Docker image
         run: docker compose build
       - name: Tag to version
-        run: docker tag frontend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
+        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
       - name: Login to registry
         run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
       - name: Push to registry
@@ -88,7 +88,7 @@ jobs:
       - name: Build the Docker image
         run: docker compose build
       - name: Tag to version
-        run: docker tag backend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
+        run: docker tag backend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
       - name: Login to registry
         run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
       - name: Push to registry
