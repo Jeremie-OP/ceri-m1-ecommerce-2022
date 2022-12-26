@@ -68,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build -t frontend .
+        run: docker compose build -t frontend .
       - name: Tag to version
         run: docker tag frontend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.1
       - name: Login to registry
@@ -86,7 +86,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build -t backend .
+        run: docker compose build -t backend .
       - name: Tag to version
         run: docker tag backend europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.1
       - name: Login to registry
