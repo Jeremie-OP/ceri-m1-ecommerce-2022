@@ -1,36 +1,69 @@
 <template>
-    <div class="container">
+    <div class="container-product">
         <img src="../img/Content.png" alt="Content of vynil" width="420" height="420">
         <div class="description">
-            <h2>{{info}}</h2>
-            <h5>Prisx </h5>
+            <!-- {{ store.itemView }} -->
+            <h2>{{name}} par {{ disk.artist }}</h2>
+            <h5>disk.price</h5>
+            <p>Album de {{ disk.artist }}, de {{ disk.year }}. Contenant les musics suivante</p>
+            <ul>
+                <li v-for="track in disk.tracks" :key="track.id" style="font-weight: bold;">{{ track.title }}</li>
+            </ul>
 
-            <p>Detail:Aenean vulputate orci eu augue aliquet, aliquam molestie sapien iaculis. Pellentesque lobortis turpis et sem viverra ultrices. Proin laoreet nulla at semper hendrerit. Sed ut eros in tortor tempor sollicitudin. Morbi vel ultricies tortor. Phasellus ullamcorper magna et sagittis ornare. Nulla facilisi. Aenean hendrerit ipsum quis nibh rhoncus, sed tempus sapien feugiat. Cras auctor, elit a volutpat blandit, lacus erat molestie tortor, gravida condimentum justo nulla a nunc. In bibendum nisl diam, vitae blandit justo pellentesque quis. Fusce in placerat erat. Praesent nulla odio, venenatis sed libero ut, iaculis elementum sem. Integer ornare eget tortor nec malesuada. Sed porttitor ligula in mauris dignissim, id tristique odio ullamcorper. Morbi vel dolor ut nibh vehicula euismod. Cras facilisis leo eget rutrum porta.
-
-</p>   
         </div>
+        <span @click="store.addToCart()" class="material-symbols-rounded add-shopping-cart">add_shopping_cart</span>
     </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue'
+<script >
+  import { defineComponent, onMounted } from 'vue'
+  import { storeDisque } from '../stores/store';
 
  export default defineComponent({
     setup(){
+        const store = storeDisque()
+        return {
+            store,
+            disk: store.itemView
+        }
       
     },
     props: {
-        info: String
+        name:String
+    },
+    onMounted(){
+        console.log(this.info)
+        
     }
 
   })
 </script>
 
 <style>
-.container
+.add-shopping-cart{
+    font-size: 73px;
+    cursor: pointer;
+}
+.container-product
 {
     display: flex;
+    /* flex-direction: column; */
     justify-content: center;
+
+    align-items: center;
+    margin-top: 1.5rem;
+    /* margin-left: 18.5rem;
+    margin-right: 18.5rem; */
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 1.5rem;
+    gap: 1rem;
+    border: 1px solid black;
+    box-shadow: 5px 5px 0 0 rgb(0 0 0 / 10%);
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    width: 65rem;
 }
 .description
 {
@@ -40,7 +73,7 @@
 img{
     /* marche pas le ration est pas respecter  */
     max-width: 100%;
-  width: 420px;
+    width: 420px;
 
 }
 * {

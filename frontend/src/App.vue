@@ -16,7 +16,6 @@ import { onMounted } from "@vue/runtime-core";
 // view the cart
 // can pay the cart
 
-<<<<<<< HEAD
 // button mon compte -> modale de connection
 // pge info du compte
 
@@ -53,14 +52,6 @@ export default({
 });
 
 
-=======
-
-// api to get gerne ? 
-// doockerignore -> npde_modules
-components: {
-  menuDisque
-}
->>>>>>> 621e08ee1f5676866a186faaa9d013f84d37df3c
 </script>
 
 <template>
