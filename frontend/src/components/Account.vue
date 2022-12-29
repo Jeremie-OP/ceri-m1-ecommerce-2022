@@ -69,7 +69,6 @@
 </template>
 
 <script >
-import axios from "axios";
 import { storeAccount } from '../stores/store';
 import useValidation from '@vuelidate/core';
 import { required, email, sameAs } from '@vuelidate/validators';

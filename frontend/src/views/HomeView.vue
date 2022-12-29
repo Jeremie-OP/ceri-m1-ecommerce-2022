@@ -3,17 +3,9 @@
   import axios from "axios";
   import carousel from "../components/Carousel.vue";
   import { defineComponent } from 'vue'
-<<<<<<< HEAD
   
   // let listArtist = axios.get("http://localhost:8888/artists");
   // console.log(listArtist);
-=======
-
-  
-  // let listArtist = axios.get("http://localhost:8888/artists");
-  // console.log(listArtist);
-
->>>>>>> 621e08ee1f5676866a186faaa9d013f84d37df3c
   export default defineComponent({
     setup(){
       
