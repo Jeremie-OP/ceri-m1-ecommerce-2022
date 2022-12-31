@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import DetailProducts from "../views/DetailProductView.vue";
 import BackofficeView from "../views/BackOfficeView.vue";
+import ShoppingCart from "../views/ShoppingCartView.vue";
 import { storeAccount } from '../stores/store';
 
 const router = createRouter({
@@ -13,9 +14,16 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: "/detail-product/:info",
+      path: "/detail-product/:name",
       name: "detail-product",
       component: DetailProducts,
+      props: true,
+      
+    },
+    {
+      path: "/shopping-cart/",
+      name: "shopping-cart",
+      component: ShoppingCart,
       props: true
     },
     {
