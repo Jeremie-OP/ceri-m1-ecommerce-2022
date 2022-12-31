@@ -18,9 +18,9 @@ variable "gcp-creds" {
   default=""
 }
 
-resource "google_cloud_run_service" "graytiger-backend1" {
+resource "google_cloud_run_service" "graytiger-backend" {
   provider = google
-  name         = "graytiger-backend1"
+  name         = "graytiger-backend"
   location     = "europe-west1"
   template {
     spec {
@@ -38,24 +38,25 @@ resource "google_cloud_run_service" "graytiger-backend1" {
   }
 }
 
-# Create public access
-data "google_iam_policy" "noauth" {
-  binding {
-    role = "roles/run.invoker"
-    members = [
-      "allUsers",
-    ]
-  }
-}
+# # Create public access
+# data "google_iam_policy" "noauth" {
+#   binding {
+#     role = "roles/run.invoker"
+#     members = [
+#       "allUsers",
+#     ]
+#   }
+# }
 
-# Enable public access on Cloud Run service
-resource "google_cloud_run_service_iam_policy" "noauth" {
-  location    = google_cloud_run_service.graytiger-backend1.location
-  project     = google_cloud_run_service.graytiger-backend1.project
-  service     = google_cloud_run_service.graytiger-backend1.name
-  policy_data = data.google_iam_policy.noauth.policy_data
-}
+# # Enable public access on Cloud Run service
+# resource "google_cloud_run_service_iam_policy" "noauth" {
+#   location    = google_cloud_run_service.graytiger-backend.location
+#   project     = google_cloud_run_service.graytiger-backend.project
+#   service     = google_cloud_run_service.graytiger-backend.name
+#   policy_data = data.google_iam_policy.noauth.policy_data
+# }
+
 # Return service URL
 output "url" {
-  value = "${google_cloud_run_service.graytiger-backend1.status[0].url}"
+  value = "${google_cloud_run_service.graytiger-backend.status[0].url}"
 }
