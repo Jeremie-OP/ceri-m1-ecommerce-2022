@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "google" {
-  project = "ceri-m1-ecommerce-2022"
+  project = "Cerythme"
   region  = "europe-west1"  
   credentials = var.gcp-creds
 }
