@@ -18,9 +18,9 @@ variable "gcp-creds" {
   default=""
 }
 
-resource "google_cloud_run_service" "graytiger-backend" {
+resource "google_cloud_run_service" "graytiger-backend1" {
   provider = google
-  name         = "graytiger-backend"
+  name         = "graytiger-backend1"
   location     = "europe-west1"
   template {
     spec {
