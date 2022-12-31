@@ -2,6 +2,7 @@
 import Flickity from '../library/Flickity.vue';
 import Products from '../components/Products.vue';
 import axios from "axios";
+import { storeDisque }  from '../stores/store';
 import { defineComponent } from 'vue';
 
 
@@ -21,10 +22,12 @@ export default defineComponent({
         }
     },
     setup(){
+        const store = storeDisque()
         if (window.innerWidth <=900)
         {
             // console.log("yesqdss",window.innerWidth)
             return {
+                store,
                 flickityOptions: {
                 initialIndex: 0,
                 draggable: true,
@@ -36,6 +39,7 @@ export default defineComponent({
         }
         else{
             return {
+                store,
                 flickityOptions: {
                 initialIndex: 0,
                 groupeCells: true,
@@ -49,9 +53,19 @@ export default defineComponent({
         }
        
     },
-    created() {
-        axios.get("http://localhost:8888/artist/"+this.title+"").then(response => (this.listMusic = response.data));
+    async created() {
+        // axios.get("http://localhost:8888/artist/"+this.title+"").then(response => (this.listMusic = response.data));
+        this.listMusic = await this.store.getArtist(this.title)
+        // await console.log("ssss",this.listMusic);
+
+    },
+    methods: {
+        setItemOnStore(music)
+        {
+            this.store.itemView = music
+        }
     }
+
 })
 </script>
 
@@ -61,10 +75,9 @@ export default defineComponent({
         <flickity v-if="listMusic != null" ref="flickity" :options='flickityOptions' class="flickity" >
             <!-- repalce carousel by carousel-cell -->
             <div class="carousel-cell" v-for="music in listMusic" > 
-
-                    <router-link class="blackLink" :to="{name: 'detail-product', params: { info:music.name} }" > 
+                    <router-link @click="setItemOnStore(music)" class="blackLink" :to="{name: 'detail-product', params: { name: music.name} }" > 
                     <!-- :to="{name: 'detail-product', parmas: {id : n} }"  -->
-                        <products  class="products" :titleMusic="music.name" price="10€"></products>
+                        <products  class="products" :titleMusic="music.name" price="10€" ></products>
 
                     </router-link>
             </div>
