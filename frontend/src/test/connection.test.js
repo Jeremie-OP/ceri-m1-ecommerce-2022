@@ -1,10 +1,10 @@
 import { mount } from "@vue/test-utils";
-import account from "../components/account.vue";
+import { store } from '../stores/store.js';
+import { account } from "../components/Account.vue";
 import { describe, it, expect } from "vitest";
 // import axios from "axios";
 import { createApp } from 'vue';
 import { setActivePinia, createPinia } from 'pinia';
-import { store } from '../stores/store.js';
 vi.mock('axios')
 
 const app = createApp({})
