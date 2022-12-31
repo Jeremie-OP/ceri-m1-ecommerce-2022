@@ -40,6 +40,7 @@ jobs:
       #----------------------------------------------
       - name: Run tests
         run: npx vitest
+
   test_backend:
     name : Test backend
     runs-on: ubuntu-latest
@@ -98,7 +99,7 @@ jobs:
   build_frontend_container:
     if: "contains(github.event.head_commit.message, '[deploy]')"
     name: Build Frontend Container
-    needs: test
+    needs: test_frontend
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -117,7 +118,7 @@ jobs:
   build_backend_container:
     if: "contains(github.event.head_commit.message, '[deploy]')"
     name: Build Backend Container    
-    needs: test
+    needs: test_backend
     runs-on: ubuntu-latest
     defaults:
       run:
