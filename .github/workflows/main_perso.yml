@@ -55,6 +55,6 @@ jobs:
       - name: Terraform Init
         run: terraform init
       - name: Terraform Remove State
-        run: terraform state rm google_cloud_run_service_iam_policy.graytiger-backend
+        run: terraform state rm google_cloud_run_service_iam_policy.noauth
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
