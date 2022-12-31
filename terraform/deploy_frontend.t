@@ -59,6 +59,7 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   service     = google_cloud_run_service.graytiger-frontend.name
   policy_data = data.google_iam_policy.noauth.policy_data
 }
+
 # Return service URL
 output "url" {
   value = "${google_cloud_run_service.graytiger-frontend.status[0].url}"
