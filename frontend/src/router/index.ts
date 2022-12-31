@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import DetailProducts from "../views/DetailProductView.vue";
+import BackofficeView from "../views/BackOfficeView.vue";
 import ShoppingCart from "../views/ShoppingCartView.vue";
+import { storeAccount } from '../stores/store';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +27,11 @@ const router = createRouter({
       props: true
     },
     {
+      path: "/backoffice",
+      name: "backoffice",
+      component : BackofficeView
+    },
+    {
       path: "/about",
       name: "about",
       // route level code-splitting
@@ -34,5 +41,12 @@ const router = createRouter({
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  const store = storeAccount()
+  console.log("test",to.name == 'backoffice',store.isAdmin())
+  if (to.name == 'backoffice' && !store.isAdmin()) next({ name: 'backoffice' })
+  else next()
+})
 
 export default router;

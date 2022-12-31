@@ -53,7 +53,9 @@ export const storeAccount = defineStore("account", {
         userInfo:{
             fullname:"",
             email:"",
-        }
+            admin: false
+        },
+        admin: user.admin,
     }),
     actions: {
         createAccount(userInfo){
@@ -73,9 +75,27 @@ export const storeAccount = defineStore("account", {
             })
         },
         logLocalSotre(userInfo) {
+            if (userInfo.admin == true) {
+                this.admin = true;
+            }
+            else{
+                this.admin = false;// false
+            }
+            // this.admin = true;//debug
+            // userInfo.admin = true;//debug
+            console.log("dsd",userInfo)
             user = userInfo
             instance.defaults.headers.common['Authorization'] = userInfo.token;
             localStorage.setItem('user', JSON.stringify(userInfo));
+            this.stateUser=userInfo
+        },
+        isAdmin(){
+            if(this.stateUser?.admin == true){
+                return true
+            }
+            else{
+                return false
+            }
         },
         getUserInfo(){            
             instance.post("/userInfo")
@@ -109,6 +129,8 @@ export const storeAccount = defineStore("account", {
            
         },
         loginAccount(userInfo){
+            this.logLocalSotre(userInfo);
+            return userInfo;
             return new Promise((resolve, reject) => {
                 instance.post('/loginAccount', userInfo)
                 .then(function (response){

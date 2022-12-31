@@ -29,6 +29,7 @@ export default({
     return {
       showModal: false,
       showProfile: false,
+      isadmin: false
     }
   },
   methods:{
@@ -41,8 +42,11 @@ export default({
       {
         this.showProfile = true;
       }
+      
     },
-    closeAccount(){
+    closeAccount(args){
+      this.isadmin = args;
+
       this.showModal = false;
     },
     closeProfile(){
@@ -55,7 +59,7 @@ export default({
 </script>
 
 <template>
-  <menuDisque @showModal="showModals" />
+  <menuDisque @showModal="showModals" v-bind:key="{isAdmin: this.isadmin}" :isAdmin="this.args"  />
   <account v-show="showModal" @account="closeAccount" />
   <profile v-show="showProfile" @profile="closeProfile" />
   <router-view/>

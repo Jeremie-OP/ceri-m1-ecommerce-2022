@@ -147,9 +147,10 @@ export default {
       },
       logOrCre(state){
         this.islogin=state
-
       },
       async toLog(){
+        
+        console.log("testqsuidfghsdkf")
         const result = await this.v$.login.$validate()
         if(!result){
           console.log('error', result)
@@ -157,7 +158,7 @@ export default {
         }
         this.store.loginAccount(this.login)
 
-        
+        this.$emit("account", this.store.isAdmin());
         this.isLog()
       },
       async toSign(){
