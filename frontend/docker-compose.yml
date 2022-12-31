@@ -1,0 +1,14 @@
+version: '1.0'
+
+services:
+  cerythme:
+    container_name: frontend
+    build:    
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:80"
+    expose:
+      - 8080
+    volumes:
+      - ./frontend:/app
