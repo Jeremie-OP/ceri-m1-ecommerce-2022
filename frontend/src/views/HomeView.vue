@@ -2,8 +2,8 @@
   import { onMounted } from "@vue/runtime-core";
   import axios from "axios";
   import carousel from "../components/Carousel.vue";
-  import { defineComponent } from 'vue'
-  import { storeDisque }  from '../stores/store';
+  import { defineComponent } from 'vue';
+  import { storeDisque } from '../stores/store';
   
   // let listArtist = axios.get("http://localhost:8888/artists");
   // console.log(listArtist);
