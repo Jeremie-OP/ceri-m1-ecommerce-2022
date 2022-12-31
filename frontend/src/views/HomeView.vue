@@ -3,19 +3,16 @@
   import axios from "axios";
   import carousel from "../components/Carousel.vue";
   import { defineComponent } from 'vue'
-<<<<<<< HEAD
+  import { storeDisque }  from '../stores/store';
   
   // let listArtist = axios.get("http://localhost:8888/artists");
   // console.log(listArtist);
-=======
-
-  
-  // let listArtist = axios.get("http://localhost:8888/artists");
-  // console.log(listArtist);
-
->>>>>>> 621e08ee1f5676866a186faaa9d013f84d37df3c
   export default defineComponent({
     setup(){
+      const store = storeDisque()
+      return {
+        store
+      }
       
     },
     components:{
@@ -27,8 +24,9 @@
         // [{name:"null", id:0}]
       }
     },
-    mounted() {
-      axios.get("http://localhost:8888/artists").then(response => (this.listArtist = response.data));
+    async created() {
+      // axios.get("http://localhost:8888/artists").then(response => (this.listArtist = response.data));
+      this.listArtist = await this.store.getArtists();
     }
   })
   
@@ -41,7 +39,9 @@
   <div class="warpper" v-for="artiste in listArtist" > 
     <carousel class="menu" :title="artiste.name"/>
   </div>
-    
+
+
+
 </template>
 
 <style>

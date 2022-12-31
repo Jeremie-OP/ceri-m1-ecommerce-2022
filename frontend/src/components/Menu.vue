@@ -1,11 +1,19 @@
 <template>
 <div class="disque">
     <div class="in-disque">
-        <button class="deg40">pannier</button>
-        <router-link to="/" class="deg90">
-            <button class="deg90">menu</button>
+      <router-link to="/shopping-cart" class="deg40">
+            <button class="deg40">
+              <span class="material-symbols-rounded bold" style="font-size: 57px;">shopping_cart</span>
+            </button>
         </router-link>
-        <button class="deg65" id="show-modal" v-on:click="tryThis">Account</button>
+        <router-link to="/" class="deg90">
+            <button class="deg90">
+              <span class="material-symbols-rounded bold"  style="font-size: 67px;">home</span>
+            </button>
+        </router-link>
+        <button class="deg65" id="show-modal" v-on:click="tryThis">
+          <span class="material-symbols-rounded bold" style="font-size: 67px;">account_circle</span>
+        </button>
         
         <!-- <button class="deg90">memnu</button> -->
         <button class="deg115">Button</button>
@@ -62,6 +70,13 @@ export default defineComponent({
 </script>
 
 <style>
+.bold {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 700,
+  'GRAD' 0,
+  'opsz' 48
+}
 @media (max-width: 900px) {
     .separate{
       padding-top: 18rem;
