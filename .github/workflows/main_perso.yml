@@ -44,7 +44,9 @@ jobs:
         run: terraform apply -auto-approve -input=false
       - name: Get URL
         id: deploy
-        run: echo "::set-output name=BACKEND_URL::$(terraform output url)"
+        run: |
+          backend_url='$(terraform output url)'
+          echo "BACKEND_URL=$backend_url" >> $GITHUB_OUTPUT
 
         
   build_frontend_container:
