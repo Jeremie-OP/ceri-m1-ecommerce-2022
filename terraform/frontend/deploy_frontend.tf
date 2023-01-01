@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "google" {
-  project = "graytiger-frontend"
+  project = "cerythme-373316"
   region  = "europe-west1"  
   credentials = var.gcp-creds
 }
