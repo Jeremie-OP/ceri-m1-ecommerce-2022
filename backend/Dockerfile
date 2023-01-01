@@ -2,8 +2,20 @@ FROM python:bullseye
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
+
+RUN URL="https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.0.0-preview.3"
+RUN wget "$URL/linux/amd64/cloud_sql_proxy" -O cloud_sql_proxy
+RUN chmod +x cloud_sql_proxy
+
+#from var env to json credentials file
+RUN echo $GOOGLE_CREDS > key.json
+
+RUN ./cloud-sql-proxy --credentials-file key.json ceri-m1-ecommerce-2022:europe-west1:mysql-primary
+
+# Install production dependencies.
 COPY requirements.txt .
 RUN python -m pip install --no-cache-dir --upgrade -r requirements.txt
+
 COPY ./src /backend/src
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8080"]
 
