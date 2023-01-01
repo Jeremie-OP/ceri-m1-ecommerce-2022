@@ -26,8 +26,6 @@ jobs:
     name: Deploy
     needs: [build_backend_container]
     runs-on: ubuntu-latest
-    outputs:
-      VITE_BACKEND_URL: ${{ steps.deploy.outputs.VITE_BACKEND_URL }}
     env:
       VITE_BACKEND_URL: ${{ steps.deploy.outputs.VITE_BACKEND_URL }}
     defaults:
@@ -46,7 +44,8 @@ jobs:
         id: deploy
         run: |
           terraform apply -auto-approve -input=false
-          echo "::set-output name=VITE_BACKEND_URL::$(terraform output -raw url)"
+          echo "BACKEND_URL=$(terraform output -raw url)" >> $GITHUB_OUTPUT
+
         
   build_frontend_container:
     if: "contains(github.event.head_commit.message, '[deploy_perso]')"
@@ -54,7 +53,7 @@ jobs:
     needs: [deploy-backend]
     runs-on: ubuntu-latest
     env:
-      VITE_BACKEND_URL: ${{ needs.deploy-backend.outputs.VITE_BACKEND_URL }}
+      VITE_BACKEND_URL: ${{ needs.deploy-backend.outputs.BACKEND_URL }}
     defaults:
       run:
         working-directory: ./frontend
