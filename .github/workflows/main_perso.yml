@@ -43,7 +43,7 @@ jobs:
       - name: Get URL
         id: deploy
         run: |
-          backend_url = $(terraform output url)
+          backend_url=$(echo terraform output url)
           echo "BACKEND_URL=$backend_url" >> $GITHUB_OUTPUT
 
         
