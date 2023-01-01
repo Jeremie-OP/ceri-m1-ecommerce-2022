@@ -3,8 +3,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
 
-RUN URL="https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.0.0-preview.3"
-RUN wget "$URL/cloud-sql-proxy.linux.amd64" -O cloud-sql-proxy
 RUN chmod +x cloud_sql_proxy
 
 #from var env to json credentials file
