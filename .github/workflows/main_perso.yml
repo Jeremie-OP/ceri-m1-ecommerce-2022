@@ -39,10 +39,10 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
       - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
+      - name: Get URL
         id: deploy
-        run: |
-          terraform apply -auto-approve -input=false
-          echo "BACKEND_URL=$(terraform output -raw url)" >> $GITHUB_OUTPUT
+        run: echo "BACKEND_URL=$(terraform output url)" >> $GITHUB_OUTPUT
 
         
   build_frontend_container:
