@@ -3,19 +3,15 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
 
-RUN chmod +x ./cloud_sql_proxy
-
-#from var env to json credentials file
-RUN echo $GOOGLE_CREDS > key.json
-
-RUN ./cloud-sql-proxy --credentials-file key.json ceri-m1-ecommerce-2022:europe-west1:mysql-primary
+COPY cloud-sql-proxy .
+RUN chmod +x ./cloud-sql-proxy
 
 # Install production dependencies.
 COPY requirements.txt .
 RUN python -m pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY ./src /backend/src
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD echo $GOOGLE_CREDS > key.json;./cloud-sql-proxy --credentials-file key.json ceri-m1-ecommerce-2022:europe-west1:mysql-primary;uvicorn src.main:app --host 0.0.0.0 --port 8080
 
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with one worker process and 8 threads.
