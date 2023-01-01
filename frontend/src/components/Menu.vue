@@ -26,12 +26,11 @@
 </template>
   
 <script >
-import Vue from 'vue';
 import { defineComponent } from 'vue';
 import { storeAccount } from '../stores/store';
 
 
-import { ref } from "vue";
+import { ref } from 'vue';
 
 export default defineComponent({
   setup() {

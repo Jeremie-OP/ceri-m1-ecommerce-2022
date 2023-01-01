@@ -3,24 +3,6 @@ name: Test, Build, and Deploy
 on: [push]
 
 jobs:
-  build_frontend_container:
-    if: "contains(github.event.head_commit.message, '[deploy_perso]')"
-    name: Build Frontend Container
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build the Docker image
-        run: docker compose build
-      - name: Tag to version
-        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.1
-      - name: Login to registry
-        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
-      - name: Push to registry
-        run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.1
-
   build_backend_container:
     if: "contains(github.event.head_commit.message, '[deploy_perso]')"
     name: Build Backend Container    
@@ -39,14 +21,55 @@ jobs:
       - name: Push to registry
         run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.1
 
-  deploy:
+  deploy-backend:
     if: "contains(github.event.head_commit.message, '[deploy_perso]')"
     name: Deploy
-    needs: [build_frontend_container, build_backend_container]
+    needs: [build_backend_container]
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: terraform
+        working-directory: terraform/backend
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
+      - name: Set env variables
+        run: echo "VITE_BACKEND_URL=$(terraform output -raw api_url)" >> $GITHUB_ENV
+        
+  build_frontend_container:
+    if: "contains(github.event.head_commit.message, '[deploy_perso]')"
+    name: Build Frontend Container
+    needs: [deploy-backend]
+    runs-on: ubuntu-latest
+    env:
+      VITE_BACKEND_URL: ${{ env.VITE_BACKEND_URL }}
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker compose build
+      - name: Tag to version
+        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.1
+      - name: Login to registry
+        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
+      - name: Push to registry
+        run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.1
+
+  deploy-frontend:
+    if: "contains(github.event.head_commit.message, '[deploy_perso]')"
+    name: Deploy
+    needs: [build_frontend_container]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/frontend
     steps:
       - uses: actions/checkout@v2
       - uses: hashicorp/setup-terraform@v2
