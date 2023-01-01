@@ -36,16 +36,15 @@ jobs:
       - uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+          terraform_wrapper: false
       - name: Terraform Init
         run: terraform init
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
       - name: Get URL
         id: deploy
         run: |
-          backend_url='$(terraform output url)'
+          backend_url=$(terraform output url)
           echo "BACKEND_URL=$backend_url" >> $GITHUB_OUTPUT
 
         
