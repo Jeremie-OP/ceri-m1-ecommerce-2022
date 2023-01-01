@@ -62,7 +62,7 @@ jobs:
         run: export VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}
       - name: create .env file
         run: echo "VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}" > .env
-      -name: cat .env
+      - name: cat .env
         run: cat .env
       - name: Build the Docker image
         run: docker compose build
