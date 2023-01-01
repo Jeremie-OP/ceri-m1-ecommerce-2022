@@ -3,6 +3,11 @@ version: "1.0"
 services:
   cerythme:
     container_name: backend
+    environment:
+      - "MYSQL_DATABASE=$MYSQL_DATABASE"
+      - "MYSQL_USER=$MYSQL_USER"
+      - "MYSQL_PASSWORD=$MYSQL_PASSWORD"
+      - "GOOGLE_CREDS=$GOOGLE_CREDS"
     build:
       context: .
       dockerfile: ./Dockerfile
