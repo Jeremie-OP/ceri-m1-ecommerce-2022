@@ -3,7 +3,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
 
-RUN chmod +x cloud_sql_proxy
+RUN chmod +x ./cloud_sql_proxy
 
 #from var env to json credentials file
 RUN echo $GOOGLE_CREDS > key.json
