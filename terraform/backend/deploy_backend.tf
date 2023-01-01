@@ -35,7 +35,7 @@ resource "google_cloud_run_service" "graytiger-backend" {
     spec {
       service_account_name = "admin-service@cerythme-373316.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.2"
+        image = "europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.3"
         env {
           name  = "GOOGLE_CREDS"
           value = var.gcp-creds
