@@ -54,9 +54,9 @@ jobs:
       run:
         working-directory: ./frontend
     steps:
-      -name: Set backend url
-        run: export VITE_BACKEND_URL=${{ steps.deploy-backend.outputs.BACKEND_URL }}
       - uses: actions/checkout@v2
+      - name: Set backend url
+        run: export VITE_BACKEND_URL=${{ steps.deploy-backend.outputs.BACKEND_URL }}
       - name: Build the Docker image
         run: docker compose build
       - name: Tag to version
