@@ -15,15 +15,15 @@ jobs:
       - name: Build the Docker image
         run: docker compose build
       - name: Tag to version
-        run: docker tag backend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.1
+        run: docker tag backend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.2
       - name: Login to registry
         run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
       - name: Push to registry
-        run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.1
+        run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.2
 
   deploy-backend:
     if: "contains(github.event.head_commit.message, '[deploy_perso]')"
-    name: Deploy
+    name: Deploy Backend
     needs: [build_backend_container]
     runs-on: ubuntu-latest
     outputs:
@@ -62,18 +62,20 @@ jobs:
         run: export VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}
       - name: create .env file
         run: echo "VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}" > .env
+      -name: cat .env
+        run: cat .env
       - name: Build the Docker image
         run: docker compose build
       - name: Tag to version
-        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.1
+        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.2
       - name: Login to registry
         run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
       - name: Push to registry
-        run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.1
+        run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.2
 
   deploy-frontend:
     if: "contains(github.event.head_commit.message, '[deploy_perso]')"
-    name: Deploy
+    name: Deploy Frontend
     needs: [build_frontend_container]
     runs-on: ubuntu-latest
     defaults:
