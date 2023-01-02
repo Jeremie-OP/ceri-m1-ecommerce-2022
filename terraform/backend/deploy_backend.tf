@@ -14,11 +14,9 @@ provider "google" {
   credentials = var.gcp-creds
 }
 
-resource "google_secret_manager_secret" "mysql-address" {
-  secret_id     = "mysql-address"
-  replication {
-    automatic = false
-  }
+# using google_secret_manager_secret_version ressource for read only access
+data "google_secret_manager_secret_version" "mysql-address" {
+  secret = "mysql-address"
 }
 
 variable "gcp-creds" {
@@ -36,7 +34,7 @@ resource "google_cloud_run_service" "graytiger-backend" {
         image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.9"
         env {
           name  = "MYSQL_ADDRESS"
-          value = google_secret_manager_secret.mysql-address.secret_id
+          value = google_secret_manager_secret_version.mysql-address.payload.data
         }
         # env {
         #   name  = "MYSQL_DATABASE"
