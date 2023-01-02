@@ -14,20 +14,20 @@ provider "google" {
   credentials = var.gcp-creds
 }
 
-data "google_secret_manager_secret_version" "mysql-address" {
+data "google_secret_manager_secret_version" "mysql-address-graytiger" {
   secret = "mysql-address"
 }
 
-data "google_secret_manager_secret_version" "mysql-user" {
-  secret = "mysql-user"
+data "google_secret_manager_secret_version" "mysql-user-graytiger" {
+  secret = "mysql-user-graytiger"
 }
 
-data "google_secret_manager_secret_version" "mysql-password" {
-  secret = "mysql-password"
+data "google_secret_manager_secret_version" "mysql-password-graytiger" {
+  secret = "mysql-password-graytiger"
 }
 
-data "google_secret_manager_secret_version" "mysql-database" {
-  secret_id = "mysql-database"
+data "google_secret_manager_secret_version" "mysql-database-graytiger" {
+  secret = "mysql-database-graytiger"
 }
 
 variable "gcp-creds" {
@@ -45,19 +45,19 @@ resource "google_cloud_run_service" "graytiger-backend" {
         image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.9"
         env {
           name  = "MYSQL_ADDRESS"
-          value = google_secret_manager_secret_version.mysql-address.secret_data
+          value = data.google_secret_manager_secret_version.mysql-address.secret_data
         }
         env {
           name  = "MYSQL_DATABASE"
-          value = google_secret_manager_secret_version.mysql-database.secret_data
+          value = data.google_secret_manager_secret_version.mysql-database-graytiger.secret_data
         }   
         env {
           name  = "MYSQL_USER"
-          value = google_secret_manager_secret_version.mysql-user.secret_data
+          value = data.google_secret_manager_secret_version.mysql-user-graytiger.secret_data
         }   
         env {
           name  = "MYSQL_PASSWORD"
-          value = google_secret_manager_secret_version.mysql-password.secret_data
+          value = data.google_secret_manager_secret_version.mysql-password-graytiger.secret_data
         }   
       }
     }
