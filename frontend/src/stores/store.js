@@ -129,8 +129,6 @@ export const storeAccount = defineStore("account", {
            
         },
         loginAccount(userInfo){
-            this.logLocalSotre(userInfo);
-            return userInfo;
             return new Promise((resolve, reject) => {
                 instance.post('/loginAccount', userInfo)
                 .then(function (response){
@@ -163,6 +161,17 @@ export const storeDisque = defineStore("disque", {
         oldcart: [],
     }),
     actions: {
+        getCollection(){
+            return new Promise((resolve, reject) => {
+                instance.get('/collection')
+                .then(function (response){
+                    resolve(response);
+                })
+                .catch(function (err){
+                    reject(err)
+                })
+            })
+        },
         addToCart(){
 
             this.cart.push({amount: 1, item: this.itemView})
@@ -260,6 +269,45 @@ export const storeDisque = defineStore("disque", {
             localStorage.removeItem('cartShopping');
             return new Promise((resolve, reject) => {
                 instance.post('/command', cart)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        editProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/editProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        deleteProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/removeProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        addProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/addProduct', product)
                 .then(function (response){
                     resolve(response);
                     // console.log("wordk",response);
