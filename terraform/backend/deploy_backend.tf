@@ -14,20 +14,8 @@ provider "google" {
   credentials = var.gcp-creds
 }
 
-data "google_secret_manager_secret_version" "mysql-address-graytiger" {
-  secret = "mysql-address"
-}
-
-data "google_secret_manager_secret_version" "mysql-user-graytiger" {
-  secret = "mysql-user-graytiger"
-}
-
-data "google_secret_manager_secret_version" "mysql-password-graytiger" {
-  secret = "mysql-password-graytiger"
-}
-
-data "google_secret_manager_secret_version" "mysql-database-graytiger" {
-  secret = "mysql-database-graytiger"
+resource "google_secret_manager_secret" "mysql-address" {
+  name     = "projects/ceri-m1-ecommerce-2022/secrets/mysql-address/versions/latest"
 }
 
 variable "gcp-creds" {
@@ -45,20 +33,20 @@ resource "google_cloud_run_service" "graytiger-backend" {
         image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.9"
         env {
           name  = "MYSQL_ADDRESS"
-          value = data.google_secret_manager_secret_version.mysql-address.secret_data
+          value = google_secret_manager_secret.mysql-address.secret_data
         }
-        env {
-          name  = "MYSQL_DATABASE"
-          value = data.google_secret_manager_secret_version.mysql-database-graytiger.secret_data
-        }   
-        env {
-          name  = "MYSQL_USER"
-          value = data.google_secret_manager_secret_version.mysql-user-graytiger.secret_data
-        }   
-        env {
-          name  = "MYSQL_PASSWORD"
-          value = data.google_secret_manager_secret_version.mysql-password-graytiger.secret_data
-        }   
+        # env {
+        #   name  = "MYSQL_DATABASE"
+        #   value = data.google_secret_manager_secret_version.mysql-database-graytiger.secret_data
+        # }   
+        # env {
+        #   name  = "MYSQL_USER"
+        #   value = data.google_secret_manager_secret_version.mysql-user-graytiger.secret_data
+        # }   
+        # env {
+        #   name  = "MYSQL_PASSWORD"
+        #   value = data.google_secret_manager_secret_version.mysql-password-graytiger.secret_data
+        # }   
       }
     }
     metadata {
