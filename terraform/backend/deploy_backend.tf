@@ -15,7 +15,9 @@ provider "google" {
 }
 
 resource "google_secret_manager_secret" "mysql-address" {
-  name     = "projects/ceri-m1-ecommerce-2022/secrets/mysql-address/versions/latest"
+  secret_id     = "mysql-address"
+  replication {
+  }
 }
 
 variable "gcp-creds" {
