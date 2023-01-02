@@ -31,20 +31,33 @@ data "google_secret_manager_secret_version" "mysql-database" {
   secret = mysql-database
 }
 
+output "mysql-address" {
+  value = data.google_secret_manager_secret_version.mysql-address
+}
+output "mysql-user" {
+  value = data.google_secret_manager_secret_version.mysql-user
+}
+output "mysql-password" {
+  value = data.google_secret_manager_secret_version.mysql-password
+}
+output "mysql-database" {
+  value = data.google_secret_manager_secret_version.mysql-database
+}
+
 variable "gcp-creds" {
   default=""
 }
 variable "MYSQL_ADDRESS" {
-  default=data.google_secret_manager_secret_version.mysql-address.payload
+  default = output.mysql-address.value
 }
 variable "MYSQL_DATABASE" {
-  default=data.google_secret_manager_secret_version.mysql-database.payload
+  default= output.mysql-database.value
 }
 variable "MYSQL_USER" {
-  default=data.google_secret_manager_secret_version.mysql-user.payload
+  default= output.mysql-user.value
 }
 variable "MYSQL_PASSWORD" {
-  default=data.google_secret_manager_secret_version.mysql-password.payload
+  default= output.mysql-password.value
 }
 
 resource "google_cloud_run_service" "graytiger-backend" {
