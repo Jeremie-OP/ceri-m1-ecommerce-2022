@@ -14,32 +14,20 @@ provider "google" {
   credentials = var.gcp-creds
 }
 
-resource "google_secret_manager_secret" "mysql-address" {
-  secret_id = "mysql-address"
-  replication {
-    automatic = true
-  }
+data "google_secret_manager_secret_version" "mysql-address" {
+  secret = "mysql-address"
 }
 
-resource "google_secret_manager_secret" "mysql-user" {
-  secret_id = "mysql-user"
-  replication {
-    automatic = true
-  }
+data "google_secret_manager_secret_version" "mysql-user" {
+  secret = "mysql-user"
 }
 
-resource "google_secret_manager_secret" "mysql-password" {
-  secret_id = "mysql-password"
-  replication {
-    automatic = true
-  }
+data "google_secret_manager_secret_version" "mysql-password" {
+  secret = "mysql-password"
 }
 
-resource "google_secret_manager_secret" "mysql-database" {
+data "google_secret_manager_secret_version" "mysql-database" {
   secret_id = "mysql-database"
-  replication {
-    automatic = true
-  }
 }
 
 variable "gcp-creds" {
@@ -57,39 +45,19 @@ resource "google_cloud_run_service" "graytiger-backend" {
         image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.9"
         env {
           name  = "MYSQL_ADDRESS"
-          value_from {
-            secret_key_ref {
-              name = google_secret_manager_secret.mysql-address.secret_id
-              key  = "latest"
-            }
-          }
+          value = google_secret_manager_secret_version.mysql-address.secret_data
         }
         env {
           name  = "MYSQL_DATABASE"
-          value_from {
-            secret_key_ref {
-              name = google_secret_manager_secret.mysql-database.secret_id
-              key  = "latest"
-            }
-          }
+          value = google_secret_manager_secret_version.mysql-database.secret_data
         }   
         env {
           name  = "MYSQL_USER"
-          value_from {
-            secret_key_ref {
-              name = google_secret_manager_secret.mysql-user.secret_id
-              key  = "latest"
-            }
-          }
+          value = google_secret_manager_secret_version.mysql-user.secret_data
         }   
         env {
           name  = "MYSQL_PASSWORD"
-          value_from {
-            secret_key_ref {
-              name = google_secret_manager_secret.mysql-password.secret_id
-              key  = "latest"
-            }
-          }
+          value = google_secret_manager_secret_version.mysql-password.secret_data
         }   
       }
     }
