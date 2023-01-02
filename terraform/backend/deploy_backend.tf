@@ -17,6 +17,7 @@ provider "google" {
 resource "google_secret_manager_secret" "mysql-address" {
   secret_id     = "mysql-address"
   replication {
+    automatic = false
   }
 }
 
