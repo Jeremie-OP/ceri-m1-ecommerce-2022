@@ -49,7 +49,6 @@
 
 <template>
   <editProduct v-show="showEdit" @edit="closeEdit" :product="this.article" :ajout="this.ajout"></editProduct>
-    vue du backoffice en tableau ? je pense
     <div class="container-table">
       <input type="button" class="button" v-on:click="editThis(article), this.ajout=true" value="ajouter un produit">
 

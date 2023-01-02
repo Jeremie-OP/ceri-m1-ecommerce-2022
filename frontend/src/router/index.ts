@@ -42,10 +42,10 @@ const router = createRouter({
   ],
 });
 
-// router.beforeEach((to, from, next) => {
-//   const store = storeAccount()
-//   if (to.name == 'backoffice' && !store.isAdmin()) next({ name: 'backoffice' })
-//   else next()
-// })
+router.beforeEach((to, from, next) => {
+  const store = storeAccount()
+  if (to.name == 'backoffice' && !store.isAdmin()) next({ name: 'backoffice' })
+  else next()
+})
 
 export default router;
