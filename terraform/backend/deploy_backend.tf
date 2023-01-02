@@ -26,6 +26,9 @@ variable "MYSQL_USER" {
 variable "MYSQL_PASSWORD" {
   default=""
 }
+variable "GOOGLE_APPLICATION_CREDENTIALS" {
+  default=""
+}
 
 resource "google_cloud_run_service" "graytiger-backend" {
   provider = google
@@ -35,10 +38,10 @@ resource "google_cloud_run_service" "graytiger-backend" {
     spec {
       service_account_name = "admin-service@cerythme-373316.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.4"
+        image = "europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.5"
         env {
           name  = "GOOGLE_CREDS"
-          value = var.gcp-creds
+          value = var.GOOGLE_APPLICATION_CREDENTIALS
         }   
         env {
           name  = "MYSQL_DATABASE"
