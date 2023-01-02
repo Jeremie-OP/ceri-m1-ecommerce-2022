@@ -1,4 +1,5 @@
 docker-compose_local.yml
 cloud-sql-proxy.exe
+cloud-sql-proxy
 /local_dev
 key.json

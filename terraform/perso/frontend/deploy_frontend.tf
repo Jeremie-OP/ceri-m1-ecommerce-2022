@@ -3,13 +3,13 @@ terraform {
     organization = "jeremieopigez"
 
     workspaces {
-      name = "Cerythme-frontend-ceri"
+      name = "Cerythme-frontend"
     }
   }
 }
 
 provider "google" {
-  project = "ceri-m1-ecommerce-2022"
+  project = "cerythme-373316"
   region  = "europe-west1"  
   credentials = var.gcp-creds
 }
@@ -24,9 +24,9 @@ resource "google_cloud_run_service" "graytiger-frontend" {
   location     = "europe-west1"
   template {
     spec {
-      service_account_name = "terraform-graytiger@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
+      service_account_name = "admin-service@cerythme-373316.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.9"
+        image = "europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.9"
       }
     }
     metadata {

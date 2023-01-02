@@ -3,13 +3,13 @@ terraform {
     organization = "jeremieopigez"
 
     workspaces {
-      name = "Cerythme-backend-ceri"
+      name = "Cerythme-backend"
     }
   }
 }
 
 provider "google" {
-  project = "ceri-m1-ecommerce-2022"
+  project = "cerythme-373316"
   region  = "europe-west1"  
   credentials = var.gcp-creds
 }
@@ -17,18 +17,6 @@ provider "google" {
 data "google_secret_manager_secret_version" "mysql-address" {
   provider = google
   secret = mysql-address
-}
-data "google_secret_manager_secret_version" "mysql-user" {
-  provider = google
-  secret = mysql-user
-}
-data "google_secret_manager_secret_version" "mysql-password" {
-  provider = google
-  secret = mysql-password
-}
-data "google_secret_manager_secret_version" "mysql-database" {
-  provider = google
-  secret = mysql-database
 }
 
 variable "gcp-creds" {
@@ -38,13 +26,16 @@ variable "MYSQL_ADDRESS" {
   default=data.google_secret_manager_secret_version.mysql-address.payload
 }
 variable "MYSQL_DATABASE" {
-  default=data.google_secret_manager_secret_version.mysql-database.payload
+  default=""
 }
 variable "MYSQL_USER" {
-  default=data.google_secret_manager_secret_version.mysql-user.payload
+  default=""
 }
 variable "MYSQL_PASSWORD" {
-  default=data.google_secret_manager_secret_version.mysql-password.payload
+  default=""
+}
+variable "GOOGLE_APPLICATION_CREDENTIALS" {
+  default=""
 }
 
 resource "google_cloud_run_service" "graytiger-backend" {
@@ -53,9 +44,9 @@ resource "google_cloud_run_service" "graytiger-backend" {
   location     = "europe-west1"
   template {
     spec {
-      service_account_name = "terraform-graytiger@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
+      service_account_name = "admin-service@cerythme-373316.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.9"
+        image = "europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.9"
         env {
           name  = "MYSQL_ADDRESS"
           value = var.MYSQL_ADDRESS

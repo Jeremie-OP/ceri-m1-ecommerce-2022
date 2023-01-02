@@ -7,7 +7,7 @@ services:
       - "MYSQL_DATABASE=$MYSQL_DATABASE"
       - "MYSQL_USER=$MYSQL_USER"
       - "MYSQL_PASSWORD=$MYSQL_PASSWORD"
-      - "GOOGLE_CREDS=$GOOGLE_CREDS"
+      - "MYSQL_ADDRESS=$MYSQL_ADDRESS"
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -15,3 +15,4 @@ services:
       - 8080:8080
     expose:
       - 8080
+    
