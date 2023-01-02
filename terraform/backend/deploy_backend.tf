@@ -34,7 +34,7 @@ resource "google_cloud_run_service" "graytiger-backend" {
         image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.9"
         env {
           name  = "MYSQL_ADDRESS"
-          value = google_secret_manager_secret_version.mysql-address.payload.data
+          value = data.google_secret_manager_secret_version.mysql-address.secret_data
         }
         # env {
         #   name  = "MYSQL_DATABASE"
