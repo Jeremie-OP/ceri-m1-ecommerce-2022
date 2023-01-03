@@ -8,6 +8,7 @@ services:
       - "MYSQL_USER=$MYSQL_USER"
       - "MYSQL_PASSWORD=$MYSQL_PASSWORD"
       - "MYSQL_ADDRESS=$MYSQL_ADDRESS"
+    
     build:
       context: .
       dockerfile: ./Dockerfile
