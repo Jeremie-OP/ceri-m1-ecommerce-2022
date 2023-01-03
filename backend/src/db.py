@@ -9,7 +9,7 @@ mysql_user = 'graytiger'
 mysql_table = os.environ.get("MYSQL_DATABASE")
 mysql_address = os.environ.get("MYSQL_ADDRESS")
 unix_socket_path = '/cloudsql/ceri-m1-ecommerce-2022:europe-west1:mysql-primary'
-
+connection_name = 'ceri-m1-ecommerce-2022:europe-west1:mysql-primary'
 
 DATABASE_URL = f"mysql+mysqldb://{mysql_user}:{mysql_password}@/{mysql_table}?unix_socket={unix_socket_path}"
 # mysql+pymysql://<db_user>:<db_pass>@/<db_name>?unix_socket=<socket_path>/<cloud_sql_instance_name>
@@ -46,11 +46,11 @@ def connect_unix_socket() -> sqlalchemy.engine.base.Engine:
 
 
 DATABASE_URL = sqlalchemy.engine.url.URL.create(
-    drivername="mysql+mysqldb",
+    drivername="mysql+pymysql",
     username=mysql_user,
     password=mysql_password,
     database=mysql_table,
-    query={"unix_socket": unix_socket_path},
+    query={"host": "{}/{}".format("/cloudsql", connection_name)},
 )
 
 engine = create_engine(DATABASE_URL)
