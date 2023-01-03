@@ -37,7 +37,7 @@ resource "google_cloud_run_service" "graytiger-backend" {
           value_from {
             secret_key_ref {
               name = data.google_secret_manager_secret.mysql-address.secret_id
-              key  = "MYSQL_ADDRESS"
+              key  = "latest"
             }
           }
         }
@@ -58,6 +58,7 @@ resource "google_cloud_run_service" "graytiger-backend" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/maxScale" = "1"
+        "seed"                           = "9"
       }
     }
   }
