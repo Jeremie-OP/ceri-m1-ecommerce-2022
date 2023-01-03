@@ -18,15 +18,9 @@ provider "google" {
 data "google_secret_manager_secret" "mysql-address" {
   secret_id = "mysql-address"
 }
-# data "google_secret_manager_secret" "mysql-user-graytiger" {
-#   secret_id = "mysql-user-graytiger"
-# }
 data "google_secret_manager_secret" "mysql-database-graytiger" {
   secret_id = "mysql-database-graytiger"
 }
-# data "google_secret_manager_secret" "mysql-password-graytiger" {
-#   secret_id = "mysql-password-graytiger"
-# }
 variable "mysql-password-graytiger" {
   default = ""
 }

@@ -33,7 +33,7 @@ jobs:
       BACKEND_URL: ${{ steps.deploy.outputs.BACKEND_URL }}
     defaults:
       run:
-        working-directory: terraform/perso/backend
+        working-directory: terraform/backend
     steps:
       - uses: actions/checkout@v2
       - uses: hashicorp/setup-terraform@v2
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: terraform/perso/frontend
+        working-directory: terraform/frontend
     steps:
       - uses: actions/checkout@v2
       - uses: hashicorp/setup-terraform@v2
