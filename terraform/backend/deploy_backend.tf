@@ -36,7 +36,7 @@ resource "google_cloud_run_service" "graytiger-backend" {
     spec {
       service_account_name = "terraform-graytiger@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.17"
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.18"
         env {
           name  = "MYSQL_ADDRESS"
           value_from {

@@ -50,7 +50,7 @@ DATABASE_URL = sqlalchemy.engine.url.URL.create(
     username=mysql_user,
     password=mysql_password,
     database=mysql_table,
-    query={"host": "{}/{}".format("/cloudsql", connection_name)},
+    query={"unix_socket": "{}/{}".format("/cloudsql", connection_name)},
 )
 
 engine = create_engine(DATABASE_URL)
