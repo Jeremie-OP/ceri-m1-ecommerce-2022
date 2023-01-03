@@ -58,7 +58,6 @@ resource "google_cloud_run_service" "graytiger-backend" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/maxScale" = "1"
-        "autoscaling.knative.dev/minScale" = "1"
       }
     }
   }

@@ -10,8 +10,10 @@ RUN chmod +x ./cloud-sql-proxy
 COPY requirements.txt .
 RUN python -m pip install --no-cache-dir --upgrade -r requirements.txt
 
+ENV PORT=8080
+
 COPY ./src /backend/src
-CMD uvicorn src.main:app --host 0.0.0.0 --port 8080
+CMD uvicorn src.main:app --host 0.0.0.0 --port $PORT
 
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with one worker process and 8 threads.
