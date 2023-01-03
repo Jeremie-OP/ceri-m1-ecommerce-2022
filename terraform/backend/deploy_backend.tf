@@ -24,8 +24,11 @@ data "google_secret_manager_secret" "mysql-user-graytiger" {
 data "google_secret_manager_secret" "mysql-database-graytiger" {
   secret_id = "mysql-database-graytiger"
 }
-data "google_secret_manager_secret" "mysql-password-graytiger" {
-  secret_id = "mysql-password-graytiger"
+# data "google_secret_manager_secret" "mysql-password-graytiger" {
+#   secret_id = "mysql-password-graytiger"
+# }
+variable "mysql-password-graytiger" {
+  default = ""
 }
 variable "gcp-creds" {
   default=""
@@ -69,12 +72,13 @@ resource "google_cloud_run_service" "graytiger-backend" {
         }   
         env {
           name  = "MYSQL_PASSWORD"
-          value_from {
-            secret_key_ref {
-              name = data.google_secret_manager_secret.mysql-password-graytiger.secret_id
-              key  = "latest"
-            }
-          }
+          value = var.mysql-password-graytiger
+          # value_from {
+          #   secret_key_ref {
+          #     name = data.google_secret_manager_secret.mysql-password-graytiger.secret_id
+          #     key  = "latest"
+          #   }
+          # }
         }   
       }
     }
