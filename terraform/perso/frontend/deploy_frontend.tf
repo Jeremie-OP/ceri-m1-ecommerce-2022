@@ -26,7 +26,7 @@ resource "google_cloud_run_service" "graytiger-frontend" {
     spec {
       service_account_name = "admin-service@cerythme-373316.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:latest"
+        image = "europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.9"
       }
     }
     metadata {
@@ -41,14 +41,13 @@ resource "google_cloud_run_service" "graytiger-frontend" {
   }
 }
 
-
 # Enable public access on Cloud Run service
 resource "google_cloud_run_service_iam_member" "noauth" {
   location    = google_cloud_run_service.graytiger-frontend.location
   project     = google_cloud_run_service.graytiger-frontend.project
   service     = google_cloud_run_service.graytiger-frontend.name
-  role = "roles/run.invoker"
-  member = "allUsers"
+  role        = "roles/run.invoker"
+  member      = "allUsers"
 }
 
 # Return service URL
