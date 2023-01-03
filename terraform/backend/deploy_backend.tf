@@ -18,7 +18,15 @@ provider "google" {
 data "google_secret_manager_secret" "mysql-address" {
   secret_id = "mysql-address"
 }
-
+data "google_secret_manager_secret" "mysql-user-graytiger" {
+  secret_id = "mysql-user-graytiger"
+}
+data "google_secret_manager_secret" "mysql-database-graytiger" {
+  secret_id = "mysql-database-graytiger"
+}
+data "google_secret_manager_secret" "mysql-password-graytiger" {
+  secret_id = "mysql-password-graytiger"
+}
 variable "gcp-creds" {
   default=""
 }
@@ -31,7 +39,7 @@ resource "google_cloud_run_service" "graytiger-backend" {
     spec {
       service_account_name = "terraform-graytiger@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.9"
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.10"
         env {
           name  = "MYSQL_ADDRESS"
           value_from {
@@ -41,18 +49,33 @@ resource "google_cloud_run_service" "graytiger-backend" {
             }
           }
         }
-        # env {
-        #   name  = "MYSQL_DATABASE"
-        #   value = data.google_secret_manager_secret_version.mysql-database-graytiger.secret_data
-        # }   
-        # env {
-        #   name  = "MYSQL_USER"
-        #   value = data.google_secret_manager_secret_version.mysql-user-graytiger.secret_data
-        # }   
-        # env {
-        #   name  = "MYSQL_PASSWORD"
-        #   value = data.google_secret_manager_secret_version.mysql-password-graytiger.secret_data
-        # }   
+        env {
+          name  = "MYSQL_DATABASE"
+          value_from {
+            secret_key_ref {
+              name = data.google_secret_manager_secret.mysql-database-graytiger.secret_id
+              key  = "latest"
+            }
+          }
+        }   
+        env {
+          name  = "MYSQL_USER"
+          value_from {
+            secret_key_ref {
+              name = data.google_secret_manager_secret.mysql-user-graytiger.secret_id
+              key  = "latest"
+            }
+          }
+        }   
+        env {
+          name  = "MYSQL_PASSWORD"
+          value_from {
+            secret_key_ref {
+              name = data.google_secret_manager_secret.mysql-password-graytiger.secret_id
+              key  = "latest"
+            }
+          }
+        }   
       }
     }
     metadata {

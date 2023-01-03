@@ -26,13 +26,12 @@ resource "google_cloud_run_service" "graytiger-frontend" {
     spec {
       service_account_name = "terraform-graytiger@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.9"
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.10"
       }
     }
     metadata {
       annotations = {
         "autoscaling.knative.dev/maxScale" = "1"
-        "autoscaling.knative.dev/minScale" = "1"
       }
     }
   }
@@ -42,22 +41,21 @@ resource "google_cloud_run_service" "graytiger-frontend" {
   }
 }
 
-# Create public access
-data "google_iam_policy" "noauth" {
-  binding {
-    role = "roles/run.invoker"
-    members = [
-      "allUsers",
-    ]
-  }
-}
+# # Create public access
+# data "google_iam_policy" "noauth" {
+#   binding {
+#     role = "roles/run.invoker"
+#     members = [
+#       "allUsers",
+#     ]
+#   }
+# }
 
 # Enable public access on Cloud Run service
-resource "google_cloud_run_service_iam_policy" "noauth" {
+resource "google_cloud_run_service_iam_member" "noauth" {
   location    = google_cloud_run_service.graytiger-frontend.location
   project     = google_cloud_run_service.graytiger-frontend.project
   service     = google_cloud_run_service.graytiger-frontend.name
-  policy_data = data.google_iam_policy.noauth.policy_data
 }
 
 # Return service URL
