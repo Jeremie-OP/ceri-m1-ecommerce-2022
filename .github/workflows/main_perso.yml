@@ -79,6 +79,7 @@ jobs:
         # run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.8
         run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.11
 
+
   deploy-frontend:
     if: "contains(github.event.head_commit.message, '[deploy_perso]')"
     name: Deploy Frontend
