@@ -8,8 +8,7 @@ mysql_user = 'graytiger'
 mysql_table = os.environ.get("MYSQL_DATABASE")
 mysql_address = os.environ.get("MYSQL_ADDRESS")
 
-DATABASE_URL = "mysql+mysqldb://{mysql_user}:{mysql_password}@{mysql_address}:3306/{mysql_table}"
-
+DATABASE_URL = f"mysql+mysqldb://{mysql_user}:{mysql_password}@{mysql_address}:3306/{mysql_table}"
 
 engine = create_engine(DATABASE_URL)
 
