@@ -4,6 +4,7 @@ from sqlmodel import Session, select
 
 from src.model import Artist, Album, Genre, Song, Vinyl
 from src.db import init_db, get_session
+import os
 
 
 def list_vinyls(result):
@@ -40,7 +41,8 @@ def on_startup():
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    # return {"Hello": "World"}
+    return [{"address" :  os.environ.get("MYSQL_ADDRESS")} , {"user" :  os.environ.get("MYSQL_USER")} , {"password" :  os.environ.get("MYSQL_PASSWORD")} , {"database" :  os.environ.get("MYSQL_DATABASE")}]
 
 
 @app.get("/artists", response_model=list[Artist])
