@@ -3,7 +3,8 @@ import os
 
 
 mysql_password = os.environ.get("MYSQL_ROOT_PASSWORD")
-mysql_user = os.environ.get("MYSQL_USER")
+# mysql_user = os.environ.get("MYSQL_USER")
+mysql_user = 'graytiger'
 mysql_table = os.environ.get("MYSQL_DATABASE")
 mysql_address = os.environ.get("MYSQL_ADDRESS")
 
