@@ -3,9 +3,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
 
-COPY cloud-sql-proxy .
-RUN chmod +x ./cloud-sql-proxy
-
 # Install production dependencies.
 COPY requirements.txt .
 RUN python -m pip install --no-cache-dir --upgrade -r requirements.txt

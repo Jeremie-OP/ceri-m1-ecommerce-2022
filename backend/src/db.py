@@ -2,7 +2,7 @@ from sqlmodel import create_engine, SQLModel, Session
 import os
 
 
-mysql_password = os.environ.get("MYSQL_ROOT_PASSWORD")
+mysql_password = os.environ.get("MYSQL_PASSWORD")
 # mysql_user = os.environ.get("MYSQL_USER")
 mysql_user = 'graytiger'
 mysql_table = os.environ.get("MYSQL_DATABASE")

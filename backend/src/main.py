@@ -2,8 +2,9 @@ from typing import List
 from fastapi import FastAPI, Depends
 from sqlmodel import Session, select
 
-from src.model import Artist, Album, Genre, Song, Vinyl 
+from src.model import Artist, Album, Genre, Song, Vinyl
 from src.db import init_db, get_session
+
 
 def list_vinyls(result):
     vinyls = []
@@ -26,15 +27,19 @@ def list_vinyls(result):
         vinyls.append(vinyl)
     return vinyls
 
+
 app = FastAPI()
+
 
 @app.on_event("startup")
 def on_startup():
     init_db()
 
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
 
 @app.get("/artists", response_model=list[Artist])
 def get_artists(session: Session = Depends(get_session)):
@@ -42,11 +47,13 @@ def get_artists(session: Session = Depends(get_session)):
     result = session.exec(statement)
     return [artist for artist in result]
 
+
 @app.get("/collection", response_model=list[Vinyl])
 def get_all_vinyls(session: Session = Depends(get_session)):
     statement = select(Album)
     result = session.exec(statement)
     return list_vinyls(result)
+
 
 @app.get("/genre/{genre}", response_model=list[Vinyl])
 def get_vinyls_by_genre(genre, session: Session = Depends(get_session)):
@@ -56,6 +63,7 @@ def get_vinyls_by_genre(genre, session: Session = Depends(get_session)):
         return list_vinyls(result)
     except:
         return []
+
 
 @app.get("/artist/{artist}", response_model=list[Vinyl])
 def get_vinyls_by_artist(artist, session: Session = Depends(get_session)):
