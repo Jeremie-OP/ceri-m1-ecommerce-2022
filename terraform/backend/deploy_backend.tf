@@ -64,22 +64,24 @@ resource "google_cloud_run_service" "graytiger-backend" {
   }
 }
 
-# Create public access
-data "google_iam_policy" "noauth" {
-  binding {
-    role = "roles/run.invoker"
-    members = [
-      "allUsers",
-    ]
-  }
-}
+# # Create public access
+# data "google_iam_policy" "noauth" {
+#   binding {
+#     role = "roles/run.invoker"
+#     members = [
+#       "allUsers",
+#     ]
+#   }
+# }
 
 # Enable public access on Cloud Run service
-resource "google_cloud_run_service_iam_policy" "noauth" {
+resource "google_cloud_run_service_iam_member" "noauth" {
   location    = google_cloud_run_service.graytiger-backend.location
   project     = google_cloud_run_service.graytiger-backend.project
   service     = google_cloud_run_service.graytiger-backend.name
-  policy_data = data.google_iam_policy.noauth.policy_data
+#  policy_data = data.google_iam_policy.noauth.policy_data
+  role        = "roles/run.invoker"
+  member      = "allUsers"
 }
 
 # Return service URL
