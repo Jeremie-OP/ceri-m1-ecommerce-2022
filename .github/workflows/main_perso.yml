@@ -15,14 +15,14 @@ jobs:
       - name: Build the Docker image
         run: docker compose build
       - name: Tag to version
-        # run: docker tag backend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.9
-        run: docker tag backend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.11
+        run: docker tag backend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.10
+        # run: docker tag backend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.11
       - name: Login to registry
-        # run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
-        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
+        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
+        # run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
       - name: Push to registry
-        # run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.9
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.11
+        run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.10
+        # run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.11
 
   deploy-backend:
     if: "contains(github.event.head_commit.message, '[deploy_perso]')"
@@ -33,7 +33,7 @@ jobs:
       BACKEND_URL: ${{ steps.deploy.outputs.BACKEND_URL }}
     defaults:
       run:
-        working-directory: terraform/backend
+        working-directory: terraform/perso/backend
     steps:
       - uses: actions/checkout@v2
       - uses: hashicorp/setup-terraform@v2
@@ -70,14 +70,14 @@ jobs:
       - name: Build the Docker image
         run: docker compose build
       - name: Tag to version
-        # run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.8
-        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.11
+        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.10
+        # run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.11
       - name: Login to registry
-        # run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
-        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
+        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
+        # run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
       - name: Push to registry
-        # run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.8
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.11
+        run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.10
+        # run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.11
 
 
   deploy-frontend:
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: terraform/frontend
+        working-directory: terraform/perso/frontend
     steps:
       - uses: actions/checkout@v2
       - uses: hashicorp/setup-terraform@v2
