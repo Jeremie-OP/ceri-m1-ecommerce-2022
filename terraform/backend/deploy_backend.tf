@@ -78,7 +78,8 @@ resource "google_cloud_run_service" "graytiger-backend" {
     }
     metadata {
       annotations = {
-        "autoscaling.knative.dev/maxScale" = "1"
+        "autoscaling.knative.dev/maxScale" = "1"  
+        "run.googleapis.com/cloudsql-instances" = "ceri-m1-ecommerce-2022:europe-west1:mysql-primary"      
         "seed"                           = "9"
       }
     }

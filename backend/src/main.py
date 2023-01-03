@@ -34,10 +34,7 @@ app = FastAPI()
 
 @app.on_event("startup")
 def on_startup():
-    try:
-        init_db()
-    except:
-        pass
+    init_db()
 
 @app.get("/")
 def read_root():
