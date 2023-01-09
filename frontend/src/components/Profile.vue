@@ -52,6 +52,12 @@ import axios from "axios";
 import { storeAccount } from '../stores/store';
 
 export default {
+  props: {
+    show: {
+      type: Boolean,
+      required: true
+    }
+  },
     setup(){
       const store = storeAccount()
       return {
@@ -87,6 +93,12 @@ export default {
       disconnect(){
         this.store.disconnectAccount();
         this.close();
+
+      },
+      watch:{
+        show(){
+          console.log('show')
+        }
 
       }
   },

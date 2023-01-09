@@ -41,6 +41,7 @@ export default({
       else if(args == "profile")
       {
         this.showProfile = true;
+        console.log("profile");
       }
       
     },
@@ -51,6 +52,8 @@ export default({
     },
     closeProfile(){
       this.showProfile = false;
+      console.log("profile2");
+
     }
   }
 });
@@ -61,7 +64,7 @@ export default({
 <template>
   <menuDisque @showModal="showModals" v-bind:key="{isAdmin: this.isadmin}" :isAdmin="this.args"  />
   <account v-show="showModal" @account="closeAccount" />
-  <profile v-show="showProfile" @profile="closeProfile" />
+  <profile v-show="showProfile" :show="this.showProfile" @profile="closeProfile" />
   <router-view/>
 </template>
 

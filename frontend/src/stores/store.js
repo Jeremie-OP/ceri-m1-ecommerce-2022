@@ -148,7 +148,7 @@ export const storeAccount = defineStore("account", {
         loginAccount(userInfo){
             this.logLocalSotre(userInfo);
             return new Promise((resolve, reject) => {
-                instance.post('/loginAccount', userInfo)
+                instance.post('/connect', userInfo)
                 .then(function (response){
                     if( response?.erreur){
                         console.log("erreur",response.erreur);
