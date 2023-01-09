@@ -13,7 +13,7 @@ export default defineConfig(async ({ command, mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: process.env.VITE_BACKEND_URL, // dans le meilleur des mondes ça aurait suffit a setup le lien avec la backend
+          target: "{BACKEND_URL}", // dans le meilleur des mondes ça aurait suffit a setup le lien avec la backend
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ""),
