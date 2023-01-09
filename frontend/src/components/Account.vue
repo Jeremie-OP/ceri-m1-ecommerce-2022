@@ -1,8 +1,8 @@
 
 <template>
 <!-- <div class="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit voluptates ex, voluptate consequuntur ipsum labore incidunt ullam dicta cum nulla soluta repellat magnam reiciendis tenetur repudiandae amet! Non, rem laboriosam.</div> -->
-<div  class="modal-mask" v-on:click="close">
-  <div class="modal-container" v-on:click.stop="">
+<div  class="modal-mask-account" v-on:click="close">
+  <div class="modal-container-account" v-on:click.stop="">
     <div class="modal-header">
       <input type="radio" name=slider id=login checked=true>
       <input type="radio" name=slider id=create>
@@ -16,8 +16,8 @@
         <form v-on:submit.prevent="toLog()">
           <div class="form-item" >
             <span class="form-item-icon material-symbols-rounded">email</span>
-            <input id=username type="text" name=username placeholder="email" v-model="login.username"  >
-            <span class="error-message" v-for="error in v$.login.username.$errors" :key="error.$uid">{{error.$message}}</span>
+            <input id=login type="text" name=login placeholder="email" v-model="login.login"  >
+            <span class="error-message" v-for="error in v$.login.login.$errors" :key="error.$uid">{{error.$message}}</span>
             <!-- :style="{ backgroundColor: login.isSub && !login.username.trim() ? 'rgba(255, 0, 0, 0.80)': 'white' }" -->
           </div>
           <div class="form-item">
@@ -34,19 +34,36 @@
         <form v-on:submit.prevent="toSign()"> 
           <div class="form-item">
             <span class="form-item-icon material-symbols-rounded">person</span>
-            <input type="text" placeholder="Nom Prénom" v-model="signIn.fullname"><br>
-            <span class="error-message" v-for="error in v$.signIn.fullname.$errors" :key="error.$uid">{{error.$message}}</span>
-
+            <input type="text" placeholder="Nom" v-model="signIn.first"><br>
+            <span class="error-message" v-for="error in v$.signIn.first.$errors" :key="error.$uid">{{error.$message}}</span>
+          </div>
+          <div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">person</span>
+            <input type="text" placeholder="Prénom" v-model="signIn.last"><br>
+            <span class="error-message" v-for="error in v$.signIn.last.$errors" :key="error.$uid">{{error.$message}}</span>
           </div>
           <div class="form-item">
             <span class="form-item-icon material-symbols-rounded">email</span>            
-            <input id=username type=text name=username placeholder="email" v-model="signIn.username"><br>
-            <span class="error-message" v-for="error in v$.signIn.username.$errors" :key="error.$uid">{{error.$message}}</span>
-
+            <input id=login type=text name=login placeholder="email" v-model="signIn.login"><br>
+            <span class="error-message" v-for="error in v$.signIn.login.$errors" :key="error.$uid">{{error.$message}}</span>
           </div>
           <div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">home</span>
+            <input type="text" placeholder="adresse" v-model="signIn.address"><br>
+            <span class="error-message" v-for="error in v$.signIn.address.$errors" :key="error.$uid">{{error.$message}}</span>
+          </div><div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">home_pin</span>
+            <input type="text" placeholder="code postal" v-model="signIn.zip"><br>
+            <span class="error-message" v-for="error in v$.signIn.zip.$errors" :key="error.$uid">{{error.$message}}</span>
+          </div><div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">location_city</span>
+            <input type="text" placeholder="ville" v-model="signIn.city"><br>
+            <span class="error-message" v-for="error in v$.signIn.city.$errors" :key="error.$uid">{{error.$message}}</span>
+          </div>
+
+          <div class="form-item">
           <input id=password name=password type="password" placeholder="Mot de passe"  v-model="signIn.password"><br>
-            <span class="error-message" v-for="error in v$.signIn.username.$errors" :key="error.$uid">{{error.$message}}</span>
+            <span class="error-message" v-for="error in v$.signIn.password.$errors" :key="error.$uid">{{error.$message}}</span>
 
             <span class="form-item-icon material-symbols-rounded">lock</span>                        
           </div>
@@ -98,14 +115,18 @@ export default {
         islogin: true,
         msg: [],
         login: {
-          username: '',
+          login: '',
           password: '',
           isSub: false,
         },
         signIn: {
-          fullname: '',
-          username: '',
+          first: '',
+          last: '',
+          login: '',
           password: '',
+          address: '',
+          zip: '',
+          city: '',
           confirmPassword:'',
         }
         
@@ -114,20 +135,27 @@ export default {
     validations() {
       return{
         login: {
-            username: {
+          login: {
               required: helpers.withMessage('Le champs ne peut pas etre vide', required),
               email: helpers.withMessage('format de l\'email est incorrect', email)
             },
             password: { required: helpers.withMessage('Le champs ne peut pas etre vide', required), }
         },
         signIn: {
-            fullname: { required: helpers.withMessage('Le champs ne peut pas etre vide', required) },
-            username: { required: helpers.withMessage('le champs ne peut pas etre vide', required) , 
-            email: helpers.withMessage('format de l\'email est incorrect', email) },
+            first: { required: helpers.withMessage('Le champs ne peut pas etre vide', required) },
+            last: { required: helpers.withMessage('Le champs ne peut pas etre vide', required) },
+            address: { required: helpers.withMessage('Le champs ne peut pas etre vide', required) },
+            zip: { required: helpers.withMessage('Le champs ne peut pas etre vide', required) },
+            city: { required: helpers.withMessage('Le champs ne peut pas etre vide', required) },
+
+            login: { 
+              required: helpers.withMessage('le champs ne peut pas etre vide', required) , 
+              email: helpers.withMessage('format de l\'email est incorrect', email) 
+            },
             password: { required: helpers.withMessage('Le champs ne peut pas etre vide', required) },
             confirmPassword: { 
               required: helpers.withMessage('Le champs ne peut pas etre vide', required),
-              sameAs: helpers.withMessage('Les mots de passe ne sont pas identiques', sameAs(this.password))
+              sameAsPassword: helpers.withMessage('Les mots de passe ne sont pas identiques', sameAs(this.signIn.password)),
             }
         }
       }
@@ -163,12 +191,18 @@ export default {
       },
       async toSign(){
         const result = await this.v$.signIn.$validate()
+        console.log(this.signIn)
         if(!result){
           console.log('error', result)
           return
         }
 
-        this.store.createAccount(this.signIn)
+        const tmp = this.store.createAccount(this.signIn)
+        console.log("tmp",tmp)
+        if (tmp){//todo: if errer 1 spesife msg is erreur
+          alert("L'adresse email est déjà utilisée")
+          return
+        }
         this.isLog()
         // let result = axios.post("http://localhost:8888/Sign", this.signIn);
         // console.log(result);
@@ -184,7 +218,7 @@ export default {
 
 <style>
 
-.modal-mask {
+.modal-mask-account {
   position: fixed;
   z-index: 4;
   top: 0;
@@ -201,9 +235,9 @@ export default {
   transition: opacity 0.3s ease;
 }
 
-.modal-container {
+.modal-container-account {
   width: 350px;
-  height: 530px;
+  height: 770px;
   border-radius: 10% ;
   /* margin: 0px auto; */
   padding: 20px 30px;
@@ -214,7 +248,7 @@ export default {
   /* transition: all 0.3s ease; */
   position: relative;
 }
-.modal-container::before {
+.modal-container-account::before {
   content: '';
   position: absolute;
   background-color: rgba(255, 255, 255, 0.6);
@@ -302,7 +336,7 @@ input[type="radio"]{
 
 
 
-.modal-mask input{
+.modal-mask-account input{
   /* outline: none;
   border-radius: 100px;
   border-width: 2px;
@@ -310,7 +344,7 @@ input[type="radio"]{
 
 }
 
-.modal-mask form{
+.modal-mask-account form{
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -319,7 +353,7 @@ input[type="radio"]{
 }
 
 
-.modal-mask .button{
+.modal-mask-account .button{
   background: black;
   color: white;
   padding: 1rem 1.5rem;
@@ -329,7 +363,7 @@ input[type="radio"]{
   /* transition: background .5s; */
 }
 
-.modal-mask button:hover{
+.modal-mask-account button:hover{
   background-color: rgba(0, 0, 0, 0.85);
 
 }

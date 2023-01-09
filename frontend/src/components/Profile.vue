@@ -10,21 +10,27 @@
 
      <form v-on:submit.prevent="toEdit()"> 
       <div class="form-item">
-        <span class="form-item-icon material-symbols-rounded">person</span>
-        <input type="text" placeholder="Nom Prénom" v-model="user.fullname">   
-      </div>
-      <div class="form-item">
-        <span class="form-item-icon material-symbols-rounded">email</span>            
-        <input id=username type=text name=username placeholder="emailr" v-model="user.username">
-      </div>
-      <div class="form-item">
-      <input id=password name=password type="password" placeholder="Mot de passe"  v-model="user.password">
-        <span class="form-item-icon material-symbols-rounded">lock</span>                        
-      </div>
-      <div class="form-item">
-        <span class="form-item-icon material-symbols-rounded">lock</span>                        
-      <input id=passwordConf name=passwordConf type="password" placeholder="Confirmé votre mot de passe">
-      </div>
+            <span class="form-item-icon material-symbols-rounded">person</span>
+            <input type="text" placeholder="Nom" v-model="user.first"><br>
+          </div>
+          <div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">person</span>
+            <input type="text" placeholder="Prénom" v-model="user.last"><br>
+          </div>
+          <div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">email</span>            
+            <input id=login type=text name=login placeholder="email" v-model="user.login"><br>
+          </div>
+          <div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">home</span>
+            <input type="text" placeholder="adresse" v-model="user.address"><br>
+          </div><div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">home_pin</span>
+            <input type="text" placeholder="code postal" v-model="user.zip"><br>
+          </div><div class="form-item">
+            <span class="form-item-icon material-symbols-rounded">location_city</span>
+            <input type="text" placeholder="ville" v-model="user.city"><br>
+          </div>
       <div class="profilsButton">
         <input @click="disconnect"  type="button" class="button" name=disconnect value="déconnetion">
         <input type="submit" class="button" name=create value="éditer compte">
@@ -56,7 +62,12 @@ export default {
       return{
         islogin: true,
         user: {
-          fullname: this.store.stateUser.fullname,
+          first: this.store.stateUser.first,
+          last: this.store.stateUser.last,
+          login: this.store.stateUser.login,
+          address: this.store.stateUser.address,
+          zip: this.store.stateUser.zip,
+          city: this.store.stateUser.city,
           username: this.store.stateUser.username,
           password: ''
         },
@@ -104,8 +115,8 @@ export default {
 }
 
 .modal-container {
-  width: 350px;
-  height: 520px;
+  width: auto;
+  height: 620px;
   border-radius: 10% ;
   /* margin: 0px auto; */
   padding: 20px 30px;
@@ -211,6 +222,7 @@ input[type="radio"]{
 .modal-mask form{
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
   margin: 1rem;
   padding: 1rem;

@@ -51,27 +51,44 @@ export const storeAccount = defineStore("account", {
     state: () => ({
         stateUser: user,
         userInfo:{
-            fullname:"",
-            email:"",
+            first: '',
+            last: '',
+            login: '',
+            address: '',
+            zip: '',
+            city: '',
             admin: false
         },
         admin: user.admin,
     }),
     actions: {
         createAccount(userInfo){
-            this.stateUser = userInfo;
-            this.logLocalSotre(userInfo)
+            this.userInfo.first = userInfo.first;
+            this.userInfo.last = userInfo.last;
+            this.userInfo.login = userInfo.login;
+            this.userInfo.address = userInfo.address;
+            this.userInfo.zip = userInfo.zip;
+            this.userInfo.city = userInfo.city;
+
+            this.stateUser = this.userInfo;
+            this.logLocalSotre(this.userInfo)
 
             return new Promise((resolve, reject) => {
-                instance.post('/createAccount', userInfo)
-                .then(function (response){
-                    resolve(response);
-                    console.log("wordk",response);
-                })
-                .catch(function (err){
-                    reject(err)
-                    console.log("errur",err);
-                })
+            instance.post('/create', userInfo)
+            .then(function (response){
+                console.log("response",response)
+                if( response.data?.erreur){
+                    console.log("erreur",response.data.erreur);
+                    reject(response)
+                }
+                resolve(response);
+                //this.logLocalSotre(userInfo);
+                console.log("wordk",response);
+            })
+            .catch(function (err){
+                reject(err)
+                console.log("errur",err);
+            })
             })
         },
         logLocalSotre(userInfo) {
@@ -130,13 +147,18 @@ export const storeAccount = defineStore("account", {
         },
         loginAccount(userInfo){
             this.logLocalSotre(userInfo);
-            return userInfo;
             return new Promise((resolve, reject) => {
                 instance.post('/loginAccount', userInfo)
                 .then(function (response){
-                    resolve(response);
-                    this.logLocalSotre(userInfo);
-                    console.log("wordk",response);
+                    if( response?.erreur){
+                        console.log("erreur",response.erreur);
+                        reject(response)
+                    }
+                    else{
+                        resolve(response);
+                        this.logLocalSotre(userInfo);
+                        console.log("wordk",response);
+                    }
                 })
                 .catch(function (err){
                     reject(err)
