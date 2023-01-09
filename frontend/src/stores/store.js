@@ -6,7 +6,7 @@ import axios from "axios";
 // http://localhost:8888
 const instance = axios.create({ 
     // assign baseURL to the backend server with variaable env
-    baseURL: import.meta.env.VITE_BACKEND_URL + '',
+    baseURL: '/api',
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         "Access-Control-Allow-Origin": "*"

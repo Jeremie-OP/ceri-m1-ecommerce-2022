@@ -5,7 +5,7 @@ module.exports = {
         "/api": {
           ws: true,
           changeOrigin: true,
-          target: "http://localhostway:8888/"
+          target: process.env.VITE_BACKEND_URL           
         }
       }
     }

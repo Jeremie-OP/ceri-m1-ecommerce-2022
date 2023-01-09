@@ -7,13 +7,13 @@ import { loadEnv } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ command, mode }) => {
-  const env = loadEnv(mode, process.cwd());
-  console.log("env", process.env.VITE_BACKEND_URL);  
+  
+  process.env = {...process.env, ...loadEnv(mode, process.cwd())};
   return {
     server: {
       proxy: {
         "/api": {
-          target: env.VITE_BACKEND_URL, // dans le meilleur des mondes ça aurait suffit a setup le lien avec la backend
+          target: process.env.VITE_BACKEND_URL, // dans le meilleur des mondes ça aurait suffit a setup le lien avec la backend
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ""),
