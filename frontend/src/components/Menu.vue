@@ -2,21 +2,31 @@
   <div class="disque">
     <div class="in-disque">
       <router-link to="/backoffice">
-        <button :class="isAdmin == false ? 'hidden' : 'deg140'">backoffice</button>
+        <button :class="!isAdmin ? 'hidden' : 'deg140'">
+          <span class="material-symbols-rounded bold" style="font-size: 57px;">inventory_2</span>
+        </button>
       </router-link>
 
       <!-- transform: rotate(115deg) translate(24rem) rotate(-115deg);  -->
-      <button :class="isAdmin != false ? 'deg115' : 'deg130'">search</button> <!-- class="deg115"  -->
+      <button :class="isAdmin ? 'deg115' : 'deg130'">search</button> <!-- class="deg115"  -->
 
       <router-link to="/">
         <!-- class="deg90" -->
-        <button :class="isAdmin != false ? 'deg90' : 'deg105'">menu</button>
+        <button :class="isAdmin ? 'deg90' : 'deg105'">
+          <span class="material-symbols-rounded bold"  style="font-size: 67px;">home</span>
+        </button>
       </router-link>
       <!-- class="deg65" -->
-      <button :class="isAdmin != false ? 'deg65' : 'deg75'" id="show-modal" v-on:click="tryThis">Account</button>
+      <button :class="isAdmin  ? 'deg65' : 'deg75'" id="show-modal" v-on:click="tryThis">
+        <span class="material-symbols-rounded bold" style="font-size: 67px;">account_circle</span>
+      </button>
 
       <!-- class="deg40" -->
-      <button :class="isAdmin != false ? 'deg40' : 'deg50'">pannier</button>
+      <router-link to="/shopping-cart">
+        <button :class="isAdmin ? 'deg40' : 'deg50'">
+          <span class="material-symbols-rounded bold" style="font-size: 57px;">shopping_cart</span>
+        </button>
+      </router-link>
 
       <!-- <button class="deg90">memnu</button> -->
     </div>
@@ -26,12 +36,10 @@
 </template>
   
 <script >
-import Vue from 'vue';
 import { defineComponent } from 'vue';
 import { storeAccount } from '../stores/store';
 
 
-import { ref } from "vue";
 
 export default defineComponent({
   setup() {
