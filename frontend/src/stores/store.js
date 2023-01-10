@@ -291,10 +291,8 @@ export const storeDisque = defineStore("disque", {
             this.cart.map((item) => {
                 tosend.push({id: item.item.id, amount: item.amount})
             })
-            console.log("tmp", Object.assign({}, tosend))
             tosend = Object.assign({}, tosend)
-            console.log("tosend", tosend)
-            // localStorage.removeItem('cartShopping');
+            localStorage.removeItem('cartShopping');
             return new Promise((resolve, reject) => {
                 instance.post('/command', this.cart)
                 .then(function (response){
