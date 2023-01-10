@@ -294,7 +294,7 @@ export const storeDisque = defineStore("disque", {
         },
         deleteProduct(product){
             return new Promise((resolve, reject) => {
-                instance.post('/removeProduct', product)
+                instance.post('/removeProduct', product.id)
                 .then(function (response){
                     resolve(response);
                     // console.log("wordk",response);
