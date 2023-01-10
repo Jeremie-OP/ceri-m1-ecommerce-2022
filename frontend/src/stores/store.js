@@ -51,44 +51,27 @@ export const storeAccount = defineStore("account", {
     state: () => ({
         stateUser: user,
         userInfo:{
-            first: '',
-            last: '',
-            login: '',
-            address: '',
-            zip: '',
-            city: '',
+            fullname:"",
+            email:"",
             admin: false
         },
         admin: user.admin,
     }),
     actions: {
         createAccount(userInfo){
-            this.userInfo.first = userInfo.first;
-            this.userInfo.last = userInfo.last;
-            this.userInfo.login = userInfo.login;
-            this.userInfo.address = userInfo.address;
-            this.userInfo.zip = userInfo.zip;
-            this.userInfo.city = userInfo.city;
-
-            this.stateUser = this.userInfo;
-            this.logLocalSotre(this.userInfo)
+            this.stateUser = userInfo;
+            this.logLocalSotre(userInfo)
 
             return new Promise((resolve, reject) => {
-            instance.post('/create', userInfo)
-            .then(function (response){
-                console.log("response",response)
-                if( response.data?.erreur){
-                    console.log("erreur",response.data.erreur);
-                    reject(response)
-                }
-                resolve(response);
-                //this.logLocalSotre(userInfo);
-                console.log("wordk",response);
-            })
-            .catch(function (err){
-                reject(err)
-                console.log("errur",err);
-            })
+                instance.post('/createAccount', userInfo)
+                .then(function (response){
+                    resolve(response);
+                    console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    console.log("errur",err);
+                })
             })
         },
         logLocalSotre(userInfo) {
@@ -98,10 +81,9 @@ export const storeAccount = defineStore("account", {
             else{
                 this.admin = false;// false
             }
-            // this.admin = true;//debug
-            // userInfo.admin = true;//debug
-            console.log("dsd",userInfo)
-            user = userInfo
+
+            console.log("java",userInfo)
+            this.userInfo = userInfo
             instance.defaults.headers.common['Authorization'] = userInfo.token;
             localStorage.setItem('user', JSON.stringify(userInfo));
             this.stateUser=userInfo
@@ -120,14 +102,14 @@ export const storeAccount = defineStore("account", {
                 this.userInfo = response
             })
         },
-        update(userInfo){
-
+        update(userInfo){//err cros
+            console.log("update",userInfo)
             return new Promise((resolve, reject) => {
-                instance.post('/updateAccount', userInfo)
+                instance.post('/update', userInfo)
                 .then(function (response){
-                    resolve(response);
-                    this.logLocalSotre(userInfo);
-                    console.log("wordk",response);
+                    resolve(response.data);
+                    // this.logLocalSotre(userInfo);
+                    console.log("wordk",response.data);
                 })
                 .catch(function (err){
                     reject(err)
@@ -137,7 +119,7 @@ export const storeAccount = defineStore("account", {
 
         },
         isConnected(){
-            if(user != -1){
+            if(this.stateUser != -1){
                 return true
             }
             else{
@@ -146,7 +128,8 @@ export const storeAccount = defineStore("account", {
            
         },
         loginAccount(userInfo){
-            this.logLocalSotre(userInfo);
+            // this.logLocalSotre(userInfo);
+            console.log("login",userInfo)
             return new Promise((resolve, reject) => {
                 instance.post('/connect', userInfo)
                 .then(function (response){
@@ -155,9 +138,10 @@ export const storeAccount = defineStore("account", {
                         reject(response)
                     }
                     else{
-                        resolve(response);
-                        this.logLocalSotre(userInfo);
-                        console.log("wordk",response);
+                        
+                        // this.logLocalSotre(userInfo);
+                        console.log("wordk",response.data);
+                        resolve(response.data);
                     }
                 })
                 .catch(function (err){
@@ -168,7 +152,7 @@ export const storeAccount = defineStore("account", {
         },
         disconnectAccount(){
             user = -1
-            this.stateUser=""
+            this.stateUser=-1   
             instance.defaults.headers.common['Authorization'] = "";
             localStorage.removeItem('user');
         }
@@ -185,6 +169,17 @@ export const storeDisque = defineStore("disque", {
         oldcart: [],
     }),
     actions: {
+        getCollection(){
+            return new Promise((resolve, reject) => {
+                instance.get('/collection')
+                .then(function (response){
+                    resolve(response);
+                })
+                .catch(function (err){
+                    reject(err)
+                })
+            })
+        },
         addToCart(){
 
             this.cart.push({amount: 1, item: this.itemView})
@@ -260,9 +255,21 @@ export const storeDisque = defineStore("disque", {
             return new Promise((resolve, reject) => {
                 instance.get('/artist/'+artist+'')
                 .then(function (response){
+                    resolve(response.data);//.data
+                })
+                .catch(function (err){
+                    reject(err)
+                })
+            })
+        },
+        getStock(){
+            return new Promise((resolve, reject) => {
+                instance.get('/stock/'+this.itemView.id+'')
+                .then(function (response){
                     resolve(response.data);
                 })
                 .catch(function (err){
+                    console.log("errur",err);
                     reject(err)
                 })
             })
@@ -279,9 +286,56 @@ export const storeDisque = defineStore("disque", {
             })
         },
         command(){
-            localStorage.removeItem('cartShopping');
+            console.log(this.cart)
+            let tosend = [{id_user: user.id}]
+            this.cart.map((item) => {
+                tosend.push({id: item.item.id, amount: item.amount})
+            })
+            console.log("tmp", Object.assign({}, tosend))
+            tosend = Object.assign({}, tosend)
+            console.log("tosend", tosend)
+            // localStorage.removeItem('cartShopping');
             return new Promise((resolve, reject) => {
-                instance.post('/command', cart)
+                instance.post('/command', this.cart)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        editProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/editProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        deleteProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/removeProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        addProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/addProduct', product)
                 .then(function (response){
                     resolve(response);
                     // console.log("wordk",response);

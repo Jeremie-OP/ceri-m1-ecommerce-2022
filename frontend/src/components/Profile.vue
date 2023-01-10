@@ -74,8 +74,8 @@ export default {
           address: this.store.stateUser.address,
           zip: this.store.stateUser.zip,
           city: this.store.stateUser.city,
-          username: this.store.stateUser.username,
-          password: ''
+          id: this.store.stateUser.id,
+          // password: ''
         },
       }
     },
@@ -84,9 +84,22 @@ export default {
         this.$emit("profile", "close");
         document.body.classList.remove("modal-open");
       },
-      toEdit(){
-        this.store.createAccount(this.signIn)
-        this.isLog()
+      async toEdit(){
+        const res = await this.store.update(this.user);
+        console.log("res",res)
+        if (res?.success == 1)
+        {
+          console.log(res)
+          this.store.this.store.logLocalSotre(isConnected)
+        }
+        else{
+          console.log(res)
+
+          this.close()
+          alert("les proiclemet")
+          return
+        }
+        // this.isLog()
         // let result = axios.post("http://localhost:8888/Sign", this.signIn);
         // console.log(result);
       },
@@ -96,8 +109,8 @@ export default {
 
       },
       watch:{
-        show(){
-          console.log('show')
+        show(balue){
+          console.log('show',balue)
         }
 
       }

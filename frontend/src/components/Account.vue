@@ -184,7 +184,16 @@ export default {
           console.log('error', result)
           return
         }
-        this.store.loginAccount(this.login)
+        const isConnected = await this.store.loginAccount(this.login)
+        if(isConnected?.erreur == -1 ){
+          this.close()
+          alert("L'adresse email ou le mot de passe est incorrect")
+          return
+        }
+        else
+        {
+          this.store.logLocalSotre(isConnected)
+        }
 
         this.$emit("account", this.store.isAdmin());
         this.isLog()
