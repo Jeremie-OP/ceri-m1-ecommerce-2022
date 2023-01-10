@@ -6,7 +6,8 @@ import axios from "axios";
 // http://localhost:8888
 console.log(import.meta.env.VITE_BACKEND_URL)
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL,    
+    baseURL: "/api",
+    // baseURL: import.meta.env.VITE_BACKEND_URL,    
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         "Access-Control-Allow-Origin": "*"

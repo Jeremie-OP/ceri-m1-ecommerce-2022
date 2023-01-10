@@ -40,6 +40,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+#authorize Access-Control
+
 
 @app.on_event("startup")
 def on_startup():

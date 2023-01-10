@@ -66,17 +66,21 @@ jobs:
         # input var env in docker.compose.yml file
       - name: Set backend url
         run: echo "VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}" >> .env
+      - name: Set backend url
+        run: echo "VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}" >> .env.local
+      - name: Set backend url
+        run: echo "VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}" >> .env.production
       - name: Build the Docker image
         run: docker compose build
       - name: Tag to version
         # run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.10
-        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.17
+        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.18
       - name: Login to registry
         # run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
         run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
       - name: Push to registry
         # run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.10
-        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.17
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.18
 
 
   deploy-frontend:
