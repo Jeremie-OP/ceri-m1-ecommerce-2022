@@ -6,8 +6,11 @@ services:
     build:    
       context: .
       dockerfile: ./Dockerfile
-      args:
-        - VITE_BACKEND_URL = https://graytiger-backend-mwjszocsqa-ew.a.run.app
+      # args:
+      #   - VITE_BACKEND_URL = https://graytiger-backend-mwjszocsqa-ew.a.run.app
+    environment:
+      # - "VITE_BACKEND_URL=$VITE_BACKEND_URL"
+      - "VITE_BACKEND_URL=https://graytiger-backend-mwjszocsqa-ew.a.run.app"
     ports:
       - "8080:8080"
     expose:

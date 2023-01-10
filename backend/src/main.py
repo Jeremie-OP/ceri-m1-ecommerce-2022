@@ -1,5 +1,7 @@
 from typing import List
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
+
 from sqlmodel import Session, select
 
 from src.model import Artist, Album, Genre, Song, Vinyl
@@ -31,6 +33,13 @@ def list_vinyls(result):
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 def on_startup():
