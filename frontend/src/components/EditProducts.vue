@@ -64,8 +64,6 @@
                         <div class="form-item" v-for="(track, index) in productToEdit.tracks" :key="track.number">
                             <span class="form-item-icon material-symbols-rounded">music_note</span>
                             <input type="text" v-model="productToEdit.tracks[index].title"><br>
-                            <!-- *:value="product.name" -->
-                            <!-- <span class="error-message" v-for="error in v$.signIn.fullname.$errors" :key="error.$uid">{{error.$message}}</span> -->
                         </div>
                         <div v-if="!this.ajout">
                             <input type="submit" class="button" name=create value="editer">
@@ -76,7 +74,6 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                <!-- <button class="modal-default-button" v-on:click="close">OK</button> -->
             
                 </div>
             </div>
