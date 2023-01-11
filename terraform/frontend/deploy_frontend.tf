@@ -26,7 +26,7 @@ resource "google_cloud_run_service" "graytiger-frontend" {
     spec {
       service_account_name = "terraform-graytiger@ceri-m1-ecommerce-2022.iam.gserviceaccount.com"
       containers {
-        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.19"
+        image = "europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.20"
       }
     }
     metadata {

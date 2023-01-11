@@ -11,19 +11,19 @@ export default defineConfig(async ({ command, mode }) => {
   
   return {
     server: {
-      proxy: {
-        "/api": {
-          // target: env.VITE_BACKEND_URL, // dans le meilleur des mondes ça aurait suffit a setup le lien avec la backend
-          target: "https://graytiger-backend-mwjszocsqa-ew.a.run.app", // dans le meilleur des mondes ça aurait suffit a setup le lien avec la backend
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        }
-      },
-      cors: false,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      // proxy: {
+      //   "/api": {
+      //     // target: env.VITE_BACKEND_URL, // dans le meilleur des mondes ça aurait suffit a setup le lien avec la backend
+      //     target: "https://graytiger-backend-mwjszocsqa-ew.a.run.app", // dans le meilleur des mondes ça aurait suffit a setup le lien avec la backend
+      //     changeOrigin: true,
+      //     secure: false,
+      //     rewrite: (path) => path.replace(/^\/api/, ""),
+      //   }
+      // },
+      // cors: false,
+      // headers: {
+      //   "Access-Control-Allow-Origin": "*",
+      // },
     },
     plugins: [vue()],
     resolve: {
