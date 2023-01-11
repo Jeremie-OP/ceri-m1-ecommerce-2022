@@ -83,7 +83,6 @@ export const storeAccount = defineStore("account", {
             else {
                 this.admin = false;// false
             }
-
             console.log("java",userInfo)
             this.userInfo = userInfo
             instance.defaults.headers.common['Authorization'] = userInfo.token;
@@ -346,43 +345,25 @@ export const storeDisque = defineStore("disque", {
                 })
             })
         },
-        editProduct(product){
+        getCommands(){
             return new Promise((resolve, reject) => {
-                instance.post('/editProduct', product)
+                instance.get('/commands')
                 .then(function (response){
                     resolve(response);
-                    // console.log("wordk",response);
                 })
                 .catch(function (err){
                     reject(err)
-                    // console.log("errur",err);
                 })
             })
         },
-        deleteProduct(product){
+        validerCommand(command){
             return new Promise((resolve, reject) => {
-                instance.post('/removeProduct', product.id)
+                instance.post('/validerCommand', command)
                 .then(function (response){
                     resolve(response);
-                    // console.log("wordk",response);
                 })
                 .catch(function (err){
                     reject(err)
-                    // console.log("errur",err);
-                })
-            })
-        },
-        addProduct(product){
-            console.log(product);
-            return new Promise((resolve, reject) => {
-                instance.post('/addProduct', product)
-                .then(function (response){
-                    resolve(response);
-                    // console.log("wordk",response);
-                })
-                .catch(function (err){
-                    reject(err)
-                    // console.log("errur",err);
                 })
             })
         },
