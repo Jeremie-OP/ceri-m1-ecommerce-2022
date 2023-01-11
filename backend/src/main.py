@@ -193,7 +193,7 @@ async def create_account(request: Request, session: Session = Depends(get_sessio
     except:
         for info in data.values():
             if info == None:
-                return {"erreur": 2}
+                return {"error": 2}
         new_user = User(
             login=data["login"],
             first=data["first"],
@@ -208,7 +208,7 @@ async def create_account(request: Request, session: Session = Depends(get_sessio
         new_user = session.exec(statement).one()
         plain_password = data["password"].encode('utf-8')
         hashed_password = bcrypt.hashpw(plain_password, bcrypt.gensalt())
-        new_password = Password(password=hashed_password.decode('utf-8'), user_id=result.id)
+        new_password = Password(password=hashed_password.decode('utf-8'), user_id=new_user.id)
         session.add(new_password)
         session.commit()
         return {"success": 1}
@@ -246,8 +246,8 @@ async def update_user_data(request: Request, session: Session = Depends(get_sess
 
 @app.post("/checkout")
 async def confirm_order(request: Request, session: Session = Depends(get_session)):
-    # data = await request.json()
-    data = {0: {"user_id": 1}, 1: {"id": 1, "amount": 2}, 2: {"id": 4, "amount": 1}}
+    data = await request.json()
+    # data = {0: {"user_id": 1}, 1: {"id": 1, "amount": 2}, 2: {"id": 4, "amount": 1}}
     user_id = data[0]["user_id"]
     try:
         purchase = Purchase(user_id=user_id)
@@ -318,5 +318,4 @@ async def add_new_album(request: Request, session: Session = Depends(get_session
         session.commit()
         return {"succes": 1}
     except:
-        return {"erreur": "bdd"}
-
+        return {"error": "bdd"}
