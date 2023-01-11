@@ -1,14 +1,15 @@
 
 <template>
-  <DetailProductsVue :info="info[0]"/>
+  <DetailProductsVue :name="name"  />
 </template>
 
-<script setup lang="ts">
+<script setup >
 import { useRoute } from 'vue-router'
 import DetailProductsVue from "../components/Detail-Products.vue";
 const route = useRoute();
 // name: music.name, gerne: music.gerne, year: music.year, trackNb: music.number_of_tracks, track: music.track} }"> 
-const info = route.params.info
+const name = route.params.name
+console.log("name",name)
 
 
 
