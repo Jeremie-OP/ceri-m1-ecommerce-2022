@@ -1,12 +1,10 @@
-version: "1.0"
+version: "2.0"
 
 services:
-  cerythme:
-    container_name: backend
+  api:
+    image: backend
     build:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 8080:80
-    expose:
-      - 8080
+      - 8888:80
