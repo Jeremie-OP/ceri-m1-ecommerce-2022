@@ -1,6 +1,4 @@
-import pytest
 import src.main as api
-from src.model import Album
 
 import random
 

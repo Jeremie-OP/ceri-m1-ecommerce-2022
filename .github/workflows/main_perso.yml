@@ -1,0 +1,102 @@
+name: Build, and Deploy
+
+on: [push]
+
+jobs:
+  build_backend_container:
+    if: "contains(github.event.head_commit.message, '[deploy]')"
+    name: Build Backend Container    
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker compose build
+      - name: Tag to version
+        # run: docker tag backend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.11
+        run: docker tag backend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.20
+      - name: Login to registry
+        # run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
+        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
+      - name: Push to registry
+        # run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/backend:0.0.11
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.20
+
+  deploy-backend:
+    if: "contains(github.event.head_commit.message, '[deploy]')"
+    name: Deploy Backend
+    needs: [build_backend_container]
+    runs-on: ubuntu-latest
+    outputs:
+      BACKEND_URL: ${{ steps.deploy.outputs.BACKEND_URL }}
+    defaults:
+      run:
+        working-directory: terraform/backend
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+          terraform_wrapper: false
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
+      - name: Get URL
+        id: deploy
+        run: |
+          backend_url=$(terraform output url)
+          echo "BACKEND_URL=$backend_url" >> $GITHUB_OUTPUT
+
+        
+  build_frontend_container:
+    if: "contains(github.event.head_commit.message, '[deploy]')"
+    name: Build Frontend Container
+    needs: [deploy-backend]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set backend url
+        run: export VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}
+        # input var env in docker.compose.yml file
+      - name: Set backend url
+        run: echo "VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}" >> .env
+      - name: Set backend url
+        run: echo "VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}" >> .env.local
+      - name: Set backend url
+        run: echo "VITE_BACKEND_URL=${{ needs.deploy-backend.outputs.BACKEND_URL }}" >> .env.production
+      - name: Build the Docker image
+        run: docker compose build
+      - name: Tag to version
+        # run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.10
+        run: docker tag frontend-cerythme europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.20
+      - name: Login to registry
+        # run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PERSO_PASSWORD }} https://europe-west1-docker.pkg.dev/cerythme-373316/cerythme
+        run: docker login -u _json_key_base64 -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }} https://europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger
+      - name: Push to registry
+        # run: docker push europe-west1-docker.pkg.dev/cerythme-373316/cerythme/frontend:0.0.10
+        run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/frontend:0.0.20
+
+
+  deploy-frontend:
+    if: "contains(github.event.head_commit.message, '[deploy]')"
+    name: Deploy Frontend
+    needs: [build_frontend_container]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/frontend
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false

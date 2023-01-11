@@ -1,12 +1,17 @@
-version: "1.0"
+version: "2.0"
 
 services:
   cerythme:
     container_name: backend
+    environment:
+      - "MYSQL_DATABASE=$MYSQL_DATABASE"
+      - "MYSQL_USER=$MYSQL_USER"
+      - "MYSQL_PASSWORD=$MYSQL_PASSWORD"
+      - "MYSQL_ADDRESS=$MYSQL_ADDRESS"
     build:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 8080:80
+      - 8080:8080
     expose:
       - 8080

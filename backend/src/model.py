@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from typing import List, Optional
 
 from sqlmodel import SQLModel, Field, Relationship
@@ -36,9 +38,52 @@ class Song(BaseModel):
     title: str
 
 class Vinyl(BaseModel):
+    id = int
     name: str
     artist: str
     genre: str
     year: int
     number_of_tracks: int
     tracks: list[Song]
+
+class User(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    login: str
+    first: str
+    last: str
+    address: str
+    zip: str
+    city: str
+    admin: bool = Field(default=False)
+    purchases: List["Purchase"] = Relationship(back_populates="user")
+
+class Password(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    password: str
+    user_id: int = Field(default=None, foreign_key="user.id")
+
+class Purchase(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    purchase_date: datetime = Field(default=datetime.now(), nullable=False)
+    user_id: int = Field(default=None, foreign_key="user.id")
+    user: User = Relationship(back_populates="purchases")
+    items: List["Item"] = Relationship(back_populates="purchase")
+
+class Item(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    purchase_id: int = Field(default=None, foreign_key="purchase.id")
+    purchase: Purchase = Relationship(back_populates="items")
+    album_id: int = Field(default=None, foreign_key="album.id")
+    album: Album = Relationship()
+    quantity: int
+
+class Stock(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    album_id: int = Field(default=None, foreign_key="album.id")
+    available: int
+
+class Order(BaseModel):
+    id = int
+    date: datetime
+    user: int
+    items: list[Vinyl]

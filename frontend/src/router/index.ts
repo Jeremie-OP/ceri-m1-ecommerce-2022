@@ -44,6 +44,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const store = storeAccount()
+  // console.log("test",to.name == 'backoffice',store.isAdmin())
   if (to.name == 'backoffice' && !store.isAdmin()) next({ name: 'backoffice' })
   else next()
 })

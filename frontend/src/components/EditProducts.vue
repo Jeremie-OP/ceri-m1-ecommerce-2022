@@ -34,15 +34,36 @@
                             <!-- *:value="product.name" -->
                             <!-- <span class="error-message" v-for="error in v$.signIn.fullname.$errors" :key="error.$uid">{{error.$message}}</span> -->
                         </div>
+                        <div v-if="!this.ajout">
+                            <h3>Stock</h3>
+                            <button type="button" class="button" v-on:click="minus()" name=add>
+                                <span class="material-symbols-rounded">remove</span>
+                            </button>
+                            
+                            <!--  -->
+                            <span class="stock">{{ this.productToEdit.stock }}</span>
+                            <button type="button" class="button"  v-on:click="this.productToEdit.stock++" name=add>
+                                <span class="material-symbols-rounded">add</span>
+                            </button>
+                            
+                        </div>
+                        <div v-if="this.ajout">
+                            <div class="form-item">
+                                <span class="form-item-icon material-symbols-rounded">inventory</span>
+                                <input type="text" v-model="productToEdit.stock"><br>
+                                <!-- *:value="product.name" -->
+                                <!-- <span class="error-message" v-for="error in v$.signIn.fullname.$errors" :key="error.$uid">{{error.$message}}</span> -->
+                            </div>
+                        </div>
                         <h3> List des piste</h3>
                         <div v-if="this.ajout">
-                            <input type="" class="button" name=create v-on:click="ajoutTrack()" value="ajout d'un piste">
+                           
+                            <input type="button" class="button" name=create v-on:click="ajoutTrack()" value="ajout d'un piste">
+                            <!-- <input type="submit" class="button" name=create value="ajouter"></input> -->
                         </div>
                         <div class="form-item" v-for="(track, index) in productToEdit.tracks" :key="track.number">
                             <span class="form-item-icon material-symbols-rounded">music_note</span>
                             <input type="text" v-model="productToEdit.tracks[index].title"><br>
-                            <!-- *:value="product.name" -->
-                            <!-- <span class="error-message" v-for="error in v$.signIn.fullname.$errors" :key="error.$uid">{{error.$message}}</span> -->
                         </div>
                         <div v-if="!this.ajout">
                             <input type="submit" class="button" name=create value="editer">
@@ -53,7 +74,6 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                <!-- <button class="modal-default-button" v-on:click="close">OK</button> -->
             
                 </div>
             </div>
@@ -100,7 +120,9 @@ export default {
             genre: '',
             year: '',
             number_of_tracks: '',
-            tracks: []
+            tracks: [],
+            stock: 0,
+            id:0
         }
         }
     },
@@ -113,8 +135,11 @@ export default {
                 genre: value.genre,
                 year: value.year,
                 number_of_tracks: value.number_of_tracks,
-                tracks: value.tracks
+                tracks: value.tracks,
+                stock: 1,
+                id: value.id
             }
+            this.getStock()
             
         },
         ajout(value){
@@ -125,11 +150,23 @@ export default {
                 year: 'année de sortie',
                 number_of_tracks: 0,
                 tracks: [],
+                stock: "stocke du produit",
                 
             }
         }
     },
     methods: {
+        minus(){
+            if (this.productToEdit.stock > 1)
+            {
+                this.productToEdit.stock--
+                this.store.changeStock(this.productToEdit.stock, this.productToEdit.id)
+            }
+        },
+        add(){
+            this.productToEdit.stock++
+            this.store.changeStock(this.productToEdit.stock, this.productToEdit.id)
+        },
         close() {
             this.$emit("edit", "close");
             document.body.classList.remove("modal-open");
@@ -139,6 +176,7 @@ export default {
             if (this.ajout == true)
             {
                 this.store.addProduct(this.productToEdit)
+
             }
             else
             {
@@ -152,6 +190,10 @@ export default {
                 title: 'nom de la piste'
             })
             this.productToEdit.number_of_tracks = this.productToEdit.tracks.length+1
+        },
+        async getStock()
+        {
+            this.productToEdit.stock = await this.store.getStock(this.product.id)
         }
     },
 }
@@ -159,6 +201,15 @@ export default {
 
 
 <style>
+
+.stock{
+    margin: 25px;
+    font-size: 20px;
+}
+
+.body.modal-container-edit{
+    position: fixed;
+}
 
 .modal-background-edit {
     position: fixed;
@@ -212,7 +263,8 @@ export default {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.6);
     inset: 0;
-    transform: rotate(5deg);
+    /* 5deg */
+    transform: rotate(5deg);  /* calc((100% * 5deg)/520px) */
     z-index: -1;
 }
 

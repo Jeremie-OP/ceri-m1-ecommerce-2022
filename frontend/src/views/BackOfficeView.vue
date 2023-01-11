@@ -39,6 +39,7 @@
       editThis(article){
         this.showEdit = true;
         this.article = article;
+        document.body.classList.add("modal-open");
       },
       closeEdit(){
         this.showEdit = false;
