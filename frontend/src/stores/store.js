@@ -317,6 +317,28 @@ export const storeDisque = defineStore("disque", {
                     // console.log("errur",err);
                 })
             })
-        }
+        },
+        getCommands(){
+            return new Promise((resolve, reject) => {
+                instance.get('/commands')
+                .then(function (response){
+                    resolve(response);
+                })
+                .catch(function (err){
+                    reject(err)
+                })
+            })
+        },
+        validerCommand(command){
+            return new Promise((resolve, reject) => {
+                instance.post('/validerCommand', command)
+                .then(function (response){
+                    resolve(response);
+                })
+                .catch(function (err){
+                    reject(err)
+                })
+            })
+        },
     }
 })

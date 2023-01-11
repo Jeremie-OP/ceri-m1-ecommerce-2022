@@ -19,15 +19,20 @@
     data() {
       return {
         listArticle: null,
+        listCommands: null,
         showEdit: false,
         article: null,
         ajout: false,
+        commands: false,
         // [{name:"null", id:0}]
       }
     },
     mounted() {
       this.store.getCollection().then((response) => {
         this.listArticle = response.data
+      })
+      this.store.getCommands().then((response) => {
+        this.listCommands = response.data
       })
     },
     methods:{
@@ -41,7 +46,16 @@
       },
       deleteThis(article){
         this.store.deleteProduct(article)
+      },
+      switchCommBack(){
+        this.commands=!this.commands
+        console.log(this.commands)
+
+      },
+      valider(article){
+        this.store.validerCommande(article)
       }
+      
     }
   })
   
@@ -50,9 +64,16 @@
 <template>
   <editProduct v-show="showEdit" @edit="closeEdit" :product="this.article" :ajout="this.ajout"></editProduct>
     <div class="container-table">
-      <input type="button" class="button" v-on:click="editThis(article), this.ajout=true" value="ajouter un produit">
+      <br>
+      <div>
+      <span type="button" class="button" v-on:click="editThis(article), this.ajout=true" >ajouter un produit</span> 
 
-      <table >
+        <span v-show="!commands" type="button" class="button" v-on:click="switchCommBack()" >voir commande</span>
+        <span v-show="commands" type="button" class="button" v-on:click="switchCommBack()" >voir ma liste article</span>
+        
+      </div>
+
+      <table>
         <thead>
           <tr>
             <th>Titre</th>
@@ -61,28 +82,39 @@
             <th>Année</th>
             <th>Stock</th>
             <th>Prix</th>
-            <th>Image</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody >
-          <tr v-for="article in listArticle" :key="article.name">
+          <tr  v-show="!commands" v-for="article in listArticle" :key="article.name">
             <td>{{ article.name }}</td>
             <td>{{ article.artist }}</td>
             <td>{{ article.genre }}</td>
             <td>{{ article.year }}</td>
             <td>{{ article.stock }}</td>
             <td>{{ article.price }}</td>
-            <td>{{ article.image }}</td>
             <td>
               <input type="button" class="button" v-on:click="editThis(article), this.ajout=false" value="modifier">
               <input type="button" class="button" v-on:click="deleteThis(article)" value="Supprimer">
             </td>
 
           </tr>
+          <tr  v-show="commands" v-for="article in listCommands" :key="article.name">
+            <td>{{ article.name }}</td>
+            <td>{{ article.artist }}</td>
+            <td>{{ article.genre }}</td>
+            <td>{{ article.year }}</td>
+            <td>{{ article.stock }}</td>
+            <td>{{ article.price }}</td>
+            <td>
+              <input type="button" class="button" v-on:click="valider(article), this.ajout=false" value="Valider">
+            </td>
+
+          </tr>
         </tbody>
       </table>
     </div>
+     
     
 </template>
 
