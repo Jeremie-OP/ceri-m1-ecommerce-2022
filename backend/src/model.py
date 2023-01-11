@@ -38,7 +38,7 @@ class Song(BaseModel):
     title: str
 
 class Vinyl(BaseModel):
-    id = int
+    id: int
     name: str
     artist: str
     genre: str
