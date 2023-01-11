@@ -52,17 +52,17 @@ import axios from "axios";
 import { storeAccount } from '../stores/store';
 
 export default {
-  props: {
-    show: {
-      type: Boolean,
-      required: true
-    }
-  },
     setup(){
       const store = storeAccount()
       return {
         store
       }
+    },
+    props: {
+      showProfils: {
+            type: Boolean,
+            required: true
+        },
     },
     data(){
       return{
@@ -79,6 +79,25 @@ export default {
         },
       }
     },
+    watch:{
+        showProfils(value){
+          console.log('show',value)
+          this.user.first = this.store.stateUser.first
+
+          this.user.last = this.store.stateUser.last
+          this.user.login = this.store.stateUser.login
+          this.user.address = this.store.stateUser.address
+          this.user.zip = this.store.stateUser.zip
+          this.user.city = this.store.stateUser.city
+          this.user.id = this.store.stateUser.id
+
+          console.log('show2',this.user)
+
+          // this.password = this.store.stateUser.password
+
+        }
+
+      },
     methods: {
       close() {
         this.$emit("profile", "close");
@@ -90,7 +109,7 @@ export default {
         if (res?.success == 1)
         {
           console.log(res)
-          this.store.this.store.logLocalSotre(isConnected)
+          this.store.logLocalSotre(isConnected)
         }
         else{
           console.log(res)
@@ -108,12 +127,7 @@ export default {
         this.close();
 
       },
-      watch:{
-        show(balue){
-          console.log('show',balue)
-        }
-
-      }
+      
   },
 }
 </script>

@@ -178,20 +178,21 @@ export default {
       },
       async toLog(){
         
-        console.log("testqsuidfghsdkf")
         const result = await this.v$.login.$validate()
         if(!result){
           console.log('error', result)
           return
         }
+
         const isConnected = await this.store.loginAccount(this.login)
-        if(isConnected?.erreur == -1 ){
+        if(isConnected?.erreur == -1  || isConnected?.error == -1){
           this.close()
           alert("L'adresse email ou le mot de passe est incorrect")
           return
         }
         else
         {
+          console.log("test",isConnected)
           this.store.logLocalSotre(isConnected)
         }
 
@@ -208,7 +209,7 @@ export default {
 
         const tmp = this.store.createAccount(this.signIn)
         console.log("tmp",tmp)
-        if (tmp){//todo: if errer 1 spesife msg is erreur
+        if (tmp?.error == 1){//todo: if errer 1 spesife msg is erreur
           alert("L'adresse email est déjà utilisée")
           return
         }

@@ -37,6 +37,7 @@
       updateList(){
         console.log("update")
         this.cart = this.store.getCart()
+        console.log(this.cart)
         this.price = 0
         this.amount = 0
         if (this.cart == null)
@@ -60,7 +61,8 @@
 <template>
 <div class="container-cart">
   <div class="contnaire-list"  >
-    <shoppingProducts @updateList="updateList" @updateAmount="updateAmount" v-if="cart != null" v-for="disk in cart" :amount="disk.amount" :item="disk.item"></shoppingProducts>
+    <!-- err if one item -->
+    <shoppingProducts @updateList="updateList" @updateAmount="updateAmount" v-if="cart != null" v-for="disk in this.cart" :amount="disk.amount" :item="disk.item"></shoppingProducts>
 
   </div>
   <div class="summary">

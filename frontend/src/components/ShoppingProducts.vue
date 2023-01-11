@@ -31,11 +31,14 @@
 
 
 <template>
+   
 <div class="container-shopping-cart">
     <img src="../img/Content.png" alt="Content of vynil" style="width: 150px; height: 150px;">
-    <router-link class="blackLink" @click="this.store.setDisk(item.name)" :to="{name: 'detail-product', params: { name: item.name} }">
+    <router-link class="blackLink" @click="this.store.setDisk(this.item.name)" :to="{name: 'detail-product', params: { name: this.item.name} }">
         <h2>{{ item.name }}</h2>
     </router-link>
+
+
     <!-- <router-link @click="setItemOnStore(music)" class="blackLink" :to="{name: 'detail-product', params: { name: music.name} }" > 
         <products  class="products" :titleMusic="music.name" price="10€" ></products>
     </router-link> -->

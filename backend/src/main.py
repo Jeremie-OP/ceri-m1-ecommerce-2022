@@ -216,14 +216,17 @@ async def create_account(request: Request, session: Session = Depends(get_sessio
 async def authentification(request: Request, session: Session = Depends(get_session)):
     data = await request.json()
     statement = select(User).where(User.login == data["login"])
-    user = session.exec(statement).one()
-    statement = select(Password).where(Password.user_id == user.id)
-    password = session.exec(statement).one()
-    plain_password = data["password"].encode('utf-8')
-    if (bcrypt.checkpw(plain_password, password.password.encode('utf-8 '))):
-        return user
-    else:
-        return {"error": -1}
+    try:
+        user = session.exec(statement).one()
+        statement = select(Password).where(Password.user_id == user.id)
+        password = session.exec(statement).one()
+        plain_password = data["password"].encode('utf-8')
+        if (bcrypt.checkpw(plain_password, password.password.encode('utf-8 '))):
+            return user
+        else:
+            return {"error": -1}
+    except:
+        return {"error": 9}
 
 @app.post("/updateAccount")
 async def update_user_data(request: Request, session: Session = Depends(get_session)):
@@ -247,17 +250,25 @@ async def update_user_data(request: Request, session: Session = Depends(get_sess
 async def confirm_order(request: Request, session: Session = Depends(get_session)):
     data = await request.json()
     # data = {0: {"user_id": 1}, 1: {"id": 1, "amount": 2}, 2: {"id": 4, "amount": 1}}
+<<<<<<< HEAD
+    user_id = data['0']["user_id"] 
+=======
     user_id = data[0]["user_id"]
+>>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
     try:
         purchase = Purchase(user_id=user_id)
         session.add(purchase)
         session.commit()
         session.refresh(purchase)
         for i in range(1, len(data)):
+            statement = select(Stock).where(Stock.album_id == data[str(i)]["id"])
+            stock = session.exec(statement).one()
+            stock.available -= data[str(i)]["amount"]
+            session.add(stock)
             item = Item(
                 purchase_id=purchase.id,
-                album_id=data[i]["id"],
-                quantity=data[i]["amount"]
+                album_id=data[str(i)]["id"],
+                quantity=data[str(i)]["amount"]
             )
             session.add(item)
         session.commit()

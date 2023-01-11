@@ -4,14 +4,18 @@
         <div class="description">
             <!-- {{ store.itemView }} -->
             <h2>{{name}} par {{ disk.artist }}</h2>
-            <h5>disk.price</h5>
+            <h5>12€</h5>
             <p>Album de {{ disk.artist }}, de {{ disk.year }}. Contenant les musics suivante</p>
             <ul>
                 <li v-for="track in disk.tracks" :key="track.id" style="font-weight: bold;">{{ track.title }}</li>
             </ul>
 
         </div>
-        <span @click="store.addToCart()" class="material-symbols-rounded add-shopping-cart">add_shopping_cart</span>
+        <span v-show="this.stock>1" @click="store.addToCart()" class="material-symbols-rounded add-shopping-cart">add_shopping_cart</span>
+        <span v-show="this.stock<1"  class="material-symbols-rounded remove_shopping_cart">remove_shopping_cart</span>
+        <h2 v-show="this.stock<1">pas en stock</h2>
+
+
     </div>
 </template>
 
@@ -31,9 +35,19 @@
     props: {
         name:String
     },
+    data(){
+        return {
+            stock: null,
+            // info: this.store.itemView
+        }
+    },
     onMounted(){
         console.log(this.info)
         
+    },
+    async created(){
+        this.stock = await this.store.getStock()
+        console.log(this.stock)
     }
 
   })
@@ -43,6 +57,10 @@
 .add-shopping-cart{
     font-size: 73px;
     cursor: pointer;
+}
+.remove_shopping_cart{
+    font-size: 73px;
+    /* cursor: pointer; */
 }
 .container-product
 {

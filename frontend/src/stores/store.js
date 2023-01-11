@@ -85,7 +85,7 @@ export const storeAccount = defineStore("account", {
             }
             console.log("java",userInfo)
             this.userInfo = userInfo
-            instance.defaults.headers.common['Authorization'] = userInfo.token;
+            // instance.defaults.headers.common['Authorization'] = userInfo.token;
             localStorage.setItem('user', JSON.stringify(userInfo));
             this.stateUser = userInfo
         },
@@ -107,7 +107,7 @@ export const storeAccount = defineStore("account", {
         update(userInfo){//err cros
             console.log("update",userInfo)
             return new Promise((resolve, reject) => {
-                instance.post('/update', userInfo)
+                instance.post('/updateAccount', userInfo)
                 .then(function (response){
                     resolve(response.data);
                     // this.logLocalSotre(userInfo);
@@ -257,6 +257,7 @@ export const storeDisque = defineStore("disque", {
                 instance.get('/artist/'+artist+'')
                 .then(function (response){
                     resolve(response.data);//.data
+                    // console.log("wordk",response.data);
                 })
                 .catch(function (err){
                     reject(err)
@@ -288,21 +289,23 @@ export const storeDisque = defineStore("disque", {
         },
         command(){
             console.log(this.cart)
-            let tosend = [{id_user: user.id}]
+            let user = JSON.parse(localStorage.getItem('user'));
+            let tosend = [{user_id: user.id}]
             this.cart.map((item) => {
                 tosend.push({id: item.item.id, amount: item.amount})
             })
             tosend = Object.assign({}, tosend)
-            localStorage.removeItem('cartShopping');
+            console.log(tosend)
+            // localStorage.removeItem('cartShopping');// TODO: remove this
             return new Promise((resolve, reject) => {
-                instance.post('/command', this.cart)
+                instance.post('/checkout', tosend)
                 .then(function (response){
                     resolve(response);
-                    // console.log("wordk",response);
+                    console.log("wordk",response);
                 })
                 .catch(function (err){
                     reject(err)
-                    // console.log("errur",err);
+                    console.log("errur",err);
                 })
             })
         },
@@ -332,6 +335,9 @@ export const storeDisque = defineStore("disque", {
                 })
             })
         },
+<<<<<<< HEAD
+        editProduct(product){
+=======
         addProduct(product){
             return new Promise((resolve, reject) => {
                 instance.post('/addProduct', product)
@@ -346,10 +352,51 @@ export const storeDisque = defineStore("disque", {
             })
         },
         getCommands(){
+>>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
             return new Promise((resolve, reject) => {
                 instance.get('/commands')
                 .then(function (response){
                     resolve(response);
+                })
+                .catch(function (err){
+                    reject(err)
+                })
+            })
+        },
+        validerCommand(command){
+            return new Promise((resolve, reject) => {
+                instance.post('/validerCommand', command)
+                .then(function (response){
+                    resolve(response);
+                })
+                .catch(function (err){
+                    reject(err)
+<<<<<<< HEAD
+                    // console.log("errur",err);
+                })
+            })
+        },
+        addProduct(product){
+            console.log(product);
+            return new Promise((resolve, reject) => {
+                instance.post('/newAlbum', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+=======
+>>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
+                })
+            })
+        },
+        getCommands(){
+            return new Promise((resolve, reject) => {
+                instance.get('/orders')
+                .then(function (response){
+                    resolve(response.data);
                 })
                 .catch(function (err){
                     reject(err)

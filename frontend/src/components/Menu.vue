@@ -8,7 +8,9 @@
       </router-link>
 
       <!-- transform: rotate(115deg) translate(24rem) rotate(-115deg);  -->
-      <button :class="isAdmin ? 'deg115' : 'deg130'">search</button> <!-- class="deg115"  -->
+      <button :class="isAdmin ? 'deg115' : 'deg130'">
+        <span class="material-symbols-rounded bold" style="font-size: 67px;">search</span>
+      </button> <!-- class="deg115"  -->
 
       <router-link to="/">
         <!-- class="deg90" -->
