@@ -34,14 +34,9 @@
       this.store.getCollection().then((response) => {
         this.listArticle = response.data
       })
-<<<<<<< HEAD
-      this.listCommands = await this.store.getCommands()
-      console.log("tet",this.listCommands)
-=======
       this.store.getCommands().then((response) => {
         this.listCommands = response.data
       })
->>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
     },
     methods:{
       editThis(article){
@@ -81,12 +76,8 @@
         <span v-show="commands" type="button" class="button" v-on:click="switchCommBack()" >voir ma liste article</span>
         
       </div>
-<<<<<<< HEAD
-      <table v-show="!commands">
-=======
 
       <table>
->>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
         <thead>
           <tr>
             <th>commands</th>
@@ -98,64 +89,19 @@
           </tr>
         </thead>
         <tbody >
-<<<<<<< HEAD
-          <tr   v-for="article in listArticle" :key="article.name">
-=======
           <tr  v-show="!commands" v-for="article in listArticle" :key="article.name">
->>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
             <td>{{ article.name }}</td>
             <td>{{ article.artist }}</td>
             <td>{{ article.genre }}</td>
             <td>{{ article.year }}</td>
-<<<<<<< HEAD
-            <td>12€</td>
-=======
             <td>{{ article.stock }}</td>
             <td>{{ article.price }}</td>
->>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
             <td>
               <input type="button" class="button" v-on:click="editThis(article), this.ajout=false" value="modifier">
               <input type="button" class="button" v-on:click="deleteThis(article)" value="Supprimer">
             </td>
 
           </tr>
-<<<<<<< HEAD
-          
-        </tbody>
-      </table>
-      <table v-show="commands">
-        <thead>
-          <tr>
-            <th>commands</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr   v-for="article in listCommands" >
-            <td>
-            <table>
-              <thead>
-                <tr>
-                  <th>Titre</th>
-                  <th>Artiste</th>
-                  <th>Genre</th>
-                  <th>Année</th>
-                  <th>Prix</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in article.items" :key="item.name">
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.artist }}</td>
-                  <td>{{ item.genre }}</td>
-                  <td>{{ item.year }}</td>
-                  <td>12 €</td>
-                  
-                </tr>
-              </tbody>
-            </table>
-            </td>
-=======
           <tr  v-show="commands" v-for="article in listCommands" :key="article.name">
             <td>{{ article.name }}</td>
             <td>{{ article.artist }}</td>
@@ -163,7 +109,6 @@
             <td>{{ article.year }}</td>
             <td>{{ article.stock }}</td>
             <td>{{ article.price }}</td>
->>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
             <td>
               <input type="button" class="button" v-on:click="valider(article), this.ajout=false" value="Valider">
             </td>

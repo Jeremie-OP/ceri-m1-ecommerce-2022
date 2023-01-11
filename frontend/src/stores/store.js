@@ -335,9 +335,6 @@ export const storeDisque = defineStore("disque", {
                 })
             })
         },
-<<<<<<< HEAD
-        editProduct(product){
-=======
         addProduct(product){
             return new Promise((resolve, reject) => {
                 instance.post('/addProduct', product)
@@ -352,7 +349,6 @@ export const storeDisque = defineStore("disque", {
             })
         },
         getCommands(){
->>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
             return new Promise((resolve, reject) => {
                 instance.get('/commands')
                 .then(function (response){
@@ -371,24 +367,6 @@ export const storeDisque = defineStore("disque", {
                 })
                 .catch(function (err){
                     reject(err)
-<<<<<<< HEAD
-                    // console.log("errur",err);
-                })
-            })
-        },
-        addProduct(product){
-            console.log(product);
-            return new Promise((resolve, reject) => {
-                instance.post('/newAlbum', product)
-                .then(function (response){
-                    resolve(response);
-                    // console.log("wordk",response);
-                })
-                .catch(function (err){
-                    reject(err)
-                    // console.log("errur",err);
-=======
->>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
                 })
             })
         },
