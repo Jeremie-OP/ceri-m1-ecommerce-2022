@@ -1,4 +1,4 @@
-version: "1.0"
+version: "2.0"
 
 services:
   cerythme:
@@ -8,7 +8,6 @@ services:
       - "MYSQL_USER=$MYSQL_USER"
       - "MYSQL_PASSWORD=$MYSQL_PASSWORD"
       - "MYSQL_ADDRESS=$MYSQL_ADDRESS"
-    
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -16,4 +15,3 @@ services:
       - 8080:8080
     expose:
       - 8080
-    

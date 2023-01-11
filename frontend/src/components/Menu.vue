@@ -2,21 +2,31 @@
   <div class="disque">
     <div class="in-disque">
       <router-link to="/backoffice">
-        <button :class="isAdmin == false ? 'hidden' : 'deg140'">backoffice</button>
+        <button :class="!isAdmin ? 'hidden' : 'deg140'">
+          <span class="material-symbols-rounded bold" style="font-size: 57px;">inventory_2</span>
+        </button>
       </router-link>
 
       <!-- transform: rotate(115deg) translate(24rem) rotate(-115deg);  -->
-      <button :class="isAdmin != false ? 'deg115' : 'deg130'">search</button> <!-- class="deg115"  -->
+      <button :class="isAdmin ? 'deg115' : 'deg130'">search</button> <!-- class="deg115"  -->
 
       <router-link to="/">
         <!-- class="deg90" -->
-        <button :class="isAdmin != false ? 'deg90' : 'deg105'">menu</button>
+        <button :class="isAdmin ? 'deg90' : 'deg105'">
+          <span class="material-symbols-rounded bold"  style="font-size: 67px;">home</span>
+        </button>
       </router-link>
       <!-- class="deg65" -->
-      <button :class="isAdmin != false ? 'deg65' : 'deg75'" id="show-modal" v-on:click="tryThis">Account</button>
+      <button :class="isAdmin  ? 'deg65' : 'deg75'" id="show-modal" v-on:click="tryThis">
+        <span class="material-symbols-rounded bold" style="font-size: 67px;">account_circle</span>
+      </button>
 
       <!-- class="deg40" -->
-      <button :class="isAdmin != false ? 'deg40' : 'deg50'">pannier</button>
+      <router-link to="/shopping-cart">
+        <button :class="isAdmin ? 'deg40' : 'deg50'">
+          <span class="material-symbols-rounded bold" style="font-size: 57px;">shopping_cart</span>
+        </button>
+      </router-link>
 
       <!-- <button class="deg90">memnu</button> -->
     </div>
@@ -26,11 +36,8 @@
 </template>
   
 <script >
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { storeAccount } from '../stores/store';
-
-
-import { ref } from 'vue';
 
 export default defineComponent({
   setup() {
@@ -86,45 +93,6 @@ export default defineComponent({
   display: none;
 }
 
-.deg0 {
-  transform: translate(24rem)
-}
-
-.deg40 {
-  transform: rotate(40deg) translate(24rem) rotate(-40deg);
-}
-
-.deg50 {
-  transform: rotate(50deg) translate(24rem) rotate(-50deg);
-}
-
-.deg65 {
-  transform: rotate(65deg) translate(24rem) rotate(-65deg);
-}
-
-.deg75 {
-  transform: rotate(75deg) translate(24rem) rotate(-75deg);
-}
-
-.deg105 {
-  transform: rotate(105deg) translate(24rem) rotate(-105deg);
-}
-
-.deg115 {
-  transform: rotate(115deg) translate(24rem) rotate(-115deg);
-}
-
-.deg130 {
-  transform: rotate(130deg) translate(24rem) rotate(-130deg);
-}
-
-.deg140 {
-  transform: rotate(140deg) translate(24rem) rotate(-140deg);
-}
-
-.deg90 {
-  transform: rotate(90deg) translate(24rem) rotate(-90deg);
-}
 
 @media (max-width: 900px) {
   .separate {
@@ -140,6 +108,47 @@ export default defineComponent({
 
 
 @media screen and (min-width: 900px) {
+  
+  .deg0 {
+    transform: translate(24rem)
+  }
+
+  .deg40 {
+    transform: rotate(40deg) translate(24rem) rotate(-40deg);
+  }
+
+  .deg50 {
+    transform: rotate(50deg) translate(24rem) rotate(-50deg);
+  }
+
+  .deg65 {
+    transform: rotate(65deg) translate(24rem) rotate(-65deg);
+  }
+
+  .deg75 {
+    transform: rotate(75deg) translate(24rem) rotate(-75deg);
+  }
+
+  .deg105 {
+    transform: rotate(105deg) translate(24rem) rotate(-105deg);
+  }
+
+  .deg115 {
+    transform: rotate(115deg) translate(24rem) rotate(-115deg);
+  }
+
+  .deg130 {
+    transform: rotate(130deg) translate(24rem) rotate(-130deg);
+  }
+
+  .deg140 {
+    transform: rotate(140deg) translate(24rem) rotate(-140deg);
+  }
+
+  .deg90 {
+    transform: rotate(90deg) translate(24rem) rotate(-90deg);
+  }
+
   .data {
     position: relative;
     top: 40rem;
@@ -232,6 +241,7 @@ export default defineComponent({
     margin: -15rem auto;
     left: 0;
     right: 0;
+    margin-bottom: 0;
 
 
   }

@@ -83,10 +83,9 @@ export const storeAccount = defineStore("account", {
             else {
                 this.admin = false;// false
             }
-            // this.admin = true;//debug
-            // userInfo.admin = true;//debug
-            console.log("dsd", userInfo)
-            user = userInfo
+
+            console.log("java",userInfo)
+            this.userInfo = userInfo
             instance.defaults.headers.common['Authorization'] = userInfo.token;
             localStorage.setItem('user', JSON.stringify(userInfo));
             this.stateUser = userInfo
@@ -105,24 +104,25 @@ export const storeAccount = defineStore("account", {
                     this.userInfo = response
                 })
         },
-        update(userInfo) {
 
+        update(userInfo){//err cros
+            console.log("update",userInfo)
             return new Promise((resolve, reject) => {
-                instance.post('/updateAccount', userInfo)
-                    .then(function (response) {
-                        resolve(response);
-                        this.logLocalSotre(userInfo);
-                        console.log("wordk", response);
-                    })
-                    .catch(function (err) {
-                        reject(err)
-                        console.log("errur", err);
-                    })
+                instance.post('/update', userInfo)
+                .then(function (response){
+                    resolve(response.data);
+                    // this.logLocalSotre(userInfo);
+                    console.log("wordk",response.data);
+                })
+                .catch(function (err){
+                    reject(err)
+                    console.log("errur",err);
+                })
             })
 
         },
-        isConnected() {
-            if (user != -1) {
+        isConnected(){
+            if(this.stateUser != -1){
                 return true
             }
             else {
@@ -130,25 +130,32 @@ export const storeAccount = defineStore("account", {
             }
 
         },
-        loginAccount(userInfo) {
-            this.logLocalSotre(userInfo);
-            return userInfo;
+        loginAccount(userInfo){
+            // this.logLocalSotre(userInfo);
+            console.log("login",userInfo)
             return new Promise((resolve, reject) => {
-                instance.post('/loginAccount', userInfo)
-                    .then(function (response) {
-                        resolve(response);
-                        this.logLocalSotre(userInfo);
-                        console.log("wordk", response);
-                    })
-                    .catch(function (err) {
-                        reject(err)
-                        console.log("errur", err);
-                    })
+                instance.post('/connect', userInfo)
+                .then(function (response){
+                    if( response?.erreur){
+                        console.log("erreur",response.erreur);
+                        reject(response)
+                    }
+                    else{
+                        
+                        // this.logLocalSotre(userInfo);
+                        console.log("wordk",response.data);
+                        resolve(response.data);
+                    }
+                })
+                .catch(function (err){
+                    reject(err)
+                    console.log("errur",err);
+                })
             })
         },
         disconnectAccount() {
             user = -1
-            this.stateUser = ""
+            this.stateUser=-1  
             instance.defaults.headers.common['Authorization'] = "";
             localStorage.removeItem('user');
         }
@@ -165,8 +172,18 @@ export const storeDisque = defineStore("disque", {
         oldcart: [],
     }),
     actions: {
-        addToCart() {
-
+        getCollection(){
+            return new Promise((resolve, reject) => {
+                instance.get('/collection')
+                .then(function (response){
+                    resolve(response);
+                })
+                .catch(function (err){
+                    reject(err)
+                })
+            })
+        },
+        addToCart(){
             this.cart.push({ amount: 1, item: this.itemView })
 
             // instance.defaults.headers.common['Authorization'] = disque;
@@ -238,13 +255,25 @@ export const storeDisque = defineStore("disque", {
         },
         getArtist(artist) {
             return new Promise((resolve, reject) => {
-                instance.get('/artist/' + artist + '')
-                    .then(function (response) {
-                        resolve(response.data);
-                    })
-                    .catch(function (err) {
-                        reject(err)
-                    })
+                instance.get('/artist/'+artist+'')
+                .then(function (response){
+                    resolve(response.data);//.data
+                })
+                .catch(function (err){
+                    reject(err)
+                })
+            })
+        },
+        getStock(){
+            return new Promise((resolve, reject) => {
+                instance.get('/stock/'+this.itemView.id+'')
+                .then(function (response){
+                    resolve(response.data);
+                })
+                .catch(function (err){
+                    console.log("errur",err);
+                    reject(err)
+                })
             })
         },
         getArtists() {
@@ -258,18 +287,115 @@ export const storeDisque = defineStore("disque", {
                     })
             })
         },
-        command() {
+        command(){
+            console.log(this.cart)
+            let tosend = [{id_user: user.id}]
+            this.cart.map((item) => {
+                tosend.push({id: item.item.id, amount: item.amount})
+            })
+            tosend = Object.assign({}, tosend)
             localStorage.removeItem('cartShopping');
             return new Promise((resolve, reject) => {
-                instance.post('/command', cart)
-                    .then(function (response) {
-                        resolve(response);
-                        // console.log("wordk",response);
-                    })
-                    .catch(function (err) {
-                        reject(err)
-                        // console.log("errur",err);
-                    })
+                instance.post('/command', this.cart)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        editProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/editProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        deleteProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/removeProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        addProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/addProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        editProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/editProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        deleteProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/removeProduct', product.id)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        addProduct(product){
+            console.log(product);
+            return new Promise((resolve, reject) => {
+                instance.post('/addProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        changeStock(stock,id){
+            return new Promise((resolve, reject) => {
+                instance.post('/editStock', {stock: stock, id: id})
+                .then(function (response){
+                    resolve(response.data);
+                })
+                .catch(function (err){
+                    console.log("errur",err);
+                    reject(err)
+                })
             })
         }
     }

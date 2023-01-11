@@ -41,6 +41,7 @@ export default({
       else if(args == "profile")
       {
         this.showProfile = true;
+        console.log("profile");
       }
       
     },
@@ -51,6 +52,8 @@ export default({
     },
     closeProfile(){
       this.showProfile = false;
+      console.log("profile2");
+
     }
   }
 });
@@ -61,18 +64,18 @@ export default({
 <template>
   <menuDisque @showModal="showModals" v-bind:key="{isAdmin: this.isadmin}" :isAdmin="this.args"  />
   <account v-show="showModal" @account="closeAccount" />
-  <profile v-show="showProfile" @profile="closeProfile" />
+  <profile v-show="showProfile" :show="this.showProfile" @profile="closeProfile" />
   <router-view/>
 </template>
 
 
 <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 
   #app{
     /* font-family: "Sofia", sans-serif;  */
     width: 100%;
+    font-family: 'Nunito', sans-serif;
 
   }
   .modal-open{
