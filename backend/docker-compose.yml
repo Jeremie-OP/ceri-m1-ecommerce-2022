@@ -1,10 +1,17 @@
 version: "2.0"
 
 services:
-  api:
-    image: backend
+  cerythme:
+    container_name: backend
+    environment:
+      - "MYSQL_DATABASE=$MYSQL_DATABASE"
+      - "MYSQL_USER=$MYSQL_USER"
+      - "MYSQL_PASSWORD=$MYSQL_PASSWORD"
+      - "MYSQL_ADDRESS=$MYSQL_ADDRESS"
     build:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 8888:80
+      - 8080:8080
+    expose:
+      - 8080

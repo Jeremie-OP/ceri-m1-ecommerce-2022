@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import DetailProducts from "../views/DetailProductView.vue";
+import BackofficeView from "../views/BackOfficeView.vue";
+import ShoppingCart from "../views/ShoppingCartView.vue";
+import { storeAccount } from '../stores/store';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,10 +14,22 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: "/detail-product/:info",
+      path: "/detail-product/:name",
       name: "detail-product",
       component: DetailProducts,
+      props: true,
+      
+    },
+    {
+      path: "/shopping-cart/",
+      name: "shopping-cart",
+      component: ShoppingCart,
       props: true
+    },
+    {
+      path: "/backoffice",
+      name: "backoffice",
+      component : BackofficeView
     },
     {
       path: "/about",
@@ -26,5 +41,12 @@ const router = createRouter({
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  const store = storeAccount()
+  // console.log("test",to.name == 'backoffice',store.isAdmin())
+  if (to.name == 'backoffice' && !store.isAdmin()) next({ name: 'backoffice' })
+  else next()
+})
 
 export default router;

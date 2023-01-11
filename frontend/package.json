@@ -11,9 +11,12 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@vuelidate/core": "^2.0.0",
+    "@vuelidate/validators": "^2.0.0",
     "axios": "^1.1.3",
     "flickity": "^3.0.0",
     "flickity-fade": "^2.0.0",
+    "pinia": "^2.0.25",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5"
   },
@@ -28,11 +31,12 @@
     "@vue/tsconfig": "^0.1.3",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
+    "happy-dom": "^8.1.1",
     "jsdom": "^20.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "typescript": "~4.7.4",
-    "vite": "^3.0.9",
+    "vite": "^3.2.5",
     "vitest": "^0.23.0",
     "vue-tsc": "^0.40.7"
   }

@@ -1,4 +1,4 @@
-version: '1.0'
+version: '2.0'
 
 services:
   cerythme:
@@ -6,9 +6,10 @@ services:
     build:    
       context: .
       dockerfile: ./Dockerfile
+    environment:
+      - "VITE_BACKEND_URL=$VITE_BACKEND_URL"
+      # - "VITE_BACKEND_URL=https://graytiger-backend-mwjszocsqa-ew.a.run.app"
     ports:
-      - "8080:80"
-    expose:
-      - 8080
+      - "8080:8080"
     volumes:
       - ./frontend:/app
