@@ -359,7 +359,7 @@ export const storeDisque = defineStore("disque", {
         },
         deleteProduct(product){
             return new Promise((resolve, reject) => {
-                instance.post('/removeProduct', product)
+                instance.post('/removeProduct', product.id)
                 .then(function (response){
                     resolve(response);
                     // console.log("wordk",response);
@@ -371,6 +371,7 @@ export const storeDisque = defineStore("disque", {
             })
         },
         addProduct(product){
+            console.log(product);
             return new Promise((resolve, reject) => {
                 instance.post('/addProduct', product)
                 .then(function (response){
@@ -380,6 +381,18 @@ export const storeDisque = defineStore("disque", {
                 .catch(function (err){
                     reject(err)
                     // console.log("errur",err);
+                })
+            })
+        },
+        changeStock(stock,id){
+            return new Promise((resolve, reject) => {
+                instance.post('/editStock', {stock: stock, id: id})
+                .then(function (response){
+                    resolve(response.data);
+                })
+                .catch(function (err){
+                    console.log("errur",err);
+                    reject(err)
                 })
             })
         }
