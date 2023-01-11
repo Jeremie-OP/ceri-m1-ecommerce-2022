@@ -36,7 +36,7 @@
 </template>
   
 <script >
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { storeAccount } from '../stores/store';
 
 export default defineComponent({

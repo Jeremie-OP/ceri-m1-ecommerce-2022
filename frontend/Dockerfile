@@ -4,11 +4,15 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run build-only
 
 # production stage
 FROM nginx:stable-alpine as production-stage
+COPY nginx.conf /etc/nginx/
 COPY --from=build-stage /app/dist /usr/share/nginx/html
+# EXPOSE 8080
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
+
 CMD ["nginx", "-g", "daemon off;"]
 
 # sudo docker build -t vuejs-cerythme/dockerize-vuejs-app .

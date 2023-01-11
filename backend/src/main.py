@@ -2,11 +2,16 @@ import bcrypt
 import string
 
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
+
 from fastapi import FastAPI, Request, Depends
 from sqlmodel import Session, select
 
 from src.model import Artist, Album, Genre, Track, Song, Vinyl, User, Password, Purchase, Item, Order, Stock
+
 from src.db import init_db, get_session
+import os
+
 
 def list_vinyls(result):
     vinyls = []
@@ -50,6 +55,16 @@ def list_orders(result):
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+#authorize Access-Control
+
+
 @app.on_event("startup")
 def on_startup():
     init_db()
@@ -84,6 +99,7 @@ def get_vinyls_by_genre(genre, session: Session = Depends(get_session)):
         return list_vinyls(result)
     except:
         return []
+
 
 @app.get("/artist/{artist}", response_model=list[Vinyl])
 def get_vinyls_by_artist(artist, session: Session = Depends(get_session)):
@@ -303,3 +319,4 @@ async def add_new_album(request: Request, session: Session = Depends(get_session
         return {"succes": 1}
     except:
         return {"erreur": "bdd"}
+
