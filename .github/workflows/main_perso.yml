@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build_backend_container:
-    if: "contains(github.event.head_commit.message, '[deploy_perso]')"
+    if: "contains(github.event.head_commit.message, '[deploy]')"
     name: Build Backend Container    
     runs-on: ubuntu-latest
     defaults:
@@ -25,7 +25,7 @@ jobs:
         run: docker push europe-west1-docker.pkg.dev/ceri-m1-ecommerce-2022/graytiger/backend:0.0.20
 
   deploy-backend:
-    if: "contains(github.event.head_commit.message, '[deploy_perso]')"
+    if: "contains(github.event.head_commit.message, '[deploy]')"
     name: Deploy Backend
     needs: [build_backend_container]
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
 
         
   build_frontend_container:
-    if: "contains(github.event.head_commit.message, '[deploy_perso]')"
+    if: "contains(github.event.head_commit.message, '[deploy]')"
     name: Build Frontend Container
     needs: [deploy-backend]
     runs-on: ubuntu-latest
@@ -84,7 +84,7 @@ jobs:
 
 
   deploy-frontend:
-    if: "contains(github.event.head_commit.message, '[deploy_perso]')"
+    if: "contains(github.event.head_commit.message, '[deploy]')"
     name: Deploy Frontend
     needs: [build_frontend_container]
     runs-on: ubuntu-latest
