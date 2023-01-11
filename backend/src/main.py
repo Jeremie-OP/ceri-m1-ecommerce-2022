@@ -250,11 +250,7 @@ async def update_user_data(request: Request, session: Session = Depends(get_sess
 async def confirm_order(request: Request, session: Session = Depends(get_session)):
     data = await request.json()
     # data = {0: {"user_id": 1}, 1: {"id": 1, "amount": 2}, 2: {"id": 4, "amount": 1}}
-<<<<<<< HEAD
-    user_id = data['0']["user_id"] 
-=======
     user_id = data[0]["user_id"]
->>>>>>> 041898ef62fbfc3f12210ae7d57b6ffa5f22269c
     try:
         purchase = Purchase(user_id=user_id)
         session.add(purchase)
