@@ -39,8 +39,6 @@
 import { defineComponent } from 'vue';
 import { storeAccount } from '../stores/store';
 
-
-
 export default defineComponent({
   setup() {
     const store = storeAccount()
@@ -95,45 +93,6 @@ export default defineComponent({
   display: none;
 }
 
-.deg0 {
-  transform: translate(24rem)
-}
-
-.deg40 {
-  transform: rotate(40deg) translate(24rem) rotate(-40deg);
-}
-
-.deg50 {
-  transform: rotate(50deg) translate(24rem) rotate(-50deg);
-}
-
-.deg65 {
-  transform: rotate(65deg) translate(24rem) rotate(-65deg);
-}
-
-.deg75 {
-  transform: rotate(75deg) translate(24rem) rotate(-75deg);
-}
-
-.deg105 {
-  transform: rotate(105deg) translate(24rem) rotate(-105deg);
-}
-
-.deg115 {
-  transform: rotate(115deg) translate(24rem) rotate(-115deg);
-}
-
-.deg130 {
-  transform: rotate(130deg) translate(24rem) rotate(-130deg);
-}
-
-.deg140 {
-  transform: rotate(140deg) translate(24rem) rotate(-140deg);
-}
-
-.deg90 {
-  transform: rotate(90deg) translate(24rem) rotate(-90deg);
-}
 
 @media (max-width: 900px) {
   .separate {
@@ -149,6 +108,47 @@ export default defineComponent({
 
 
 @media screen and (min-width: 900px) {
+  
+  .deg0 {
+    transform: translate(24rem)
+  }
+
+  .deg40 {
+    transform: rotate(40deg) translate(24rem) rotate(-40deg);
+  }
+
+  .deg50 {
+    transform: rotate(50deg) translate(24rem) rotate(-50deg);
+  }
+
+  .deg65 {
+    transform: rotate(65deg) translate(24rem) rotate(-65deg);
+  }
+
+  .deg75 {
+    transform: rotate(75deg) translate(24rem) rotate(-75deg);
+  }
+
+  .deg105 {
+    transform: rotate(105deg) translate(24rem) rotate(-105deg);
+  }
+
+  .deg115 {
+    transform: rotate(115deg) translate(24rem) rotate(-115deg);
+  }
+
+  .deg130 {
+    transform: rotate(130deg) translate(24rem) rotate(-130deg);
+  }
+
+  .deg140 {
+    transform: rotate(140deg) translate(24rem) rotate(-140deg);
+  }
+
+  .deg90 {
+    transform: rotate(90deg) translate(24rem) rotate(-90deg);
+  }
+
   .data {
     position: relative;
     top: 40rem;
@@ -241,6 +241,7 @@ export default defineComponent({
     margin: -15rem auto;
     left: 0;
     right: 0;
+    margin-bottom: 0;
 
 
   }
