@@ -70,12 +70,12 @@ export default({
 
 
 <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 
   #app{
     /* font-family: "Sofia", sans-serif;  */
     width: 100%;
+    font-family: 'Nunito', sans-serif;
 
   }
   .modal-open{

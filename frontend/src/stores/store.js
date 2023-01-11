@@ -343,6 +343,45 @@ export const storeDisque = defineStore("disque", {
                     // console.log("errur",err);
                 })
             })
+        },
+        editProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/editProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        deleteProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/removeProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
+        },
+        addProduct(product){
+            return new Promise((resolve, reject) => {
+                instance.post('/addProduct', product)
+                .then(function (response){
+                    resolve(response);
+                    // console.log("wordk",response);
+                })
+                .catch(function (err){
+                    reject(err)
+                    // console.log("errur",err);
+                })
+            })
         }
     }
 })
