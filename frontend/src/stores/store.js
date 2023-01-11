@@ -83,7 +83,7 @@ export const storeAccount = defineStore("account", {
             }
             // this.admin = true;//debug
             // userInfo.admin = true;//debug
-            console.log("dsd",userInfo)
+            // console.log("dsd",userInfo)
             user = userInfo
             instance.defaults.headers.common['Authorization'] = userInfo.token;
             localStorage.setItem('user', JSON.stringify(userInfo));
